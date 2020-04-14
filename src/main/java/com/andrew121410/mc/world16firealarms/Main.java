@@ -1,6 +1,8 @@
 package com.andrew121410.mc.world16firealarms;
 
 import com.andrew121410.mc.world16firealarms.commands.FireAlarmCMD;
+import com.andrew121410.mc.world16firealarms.events.OnBlockBreakEvent;
+import com.andrew121410.mc.world16firealarms.events.OnInventoryClickEvent;
 import com.andrew121410.mc.world16firealarms.events.OnPlayerInteractEvent;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmManager;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
@@ -48,7 +50,9 @@ public final class Main extends JavaPlugin {
     }
 
     public void regEvents() {
+        new OnBlockBreakEvent(this);
         new OnPlayerInteractEvent(this);
+        new OnInventoryClickEvent(this);
     }
 
     public static Main getInstance() {
