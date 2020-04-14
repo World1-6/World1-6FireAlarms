@@ -65,7 +65,9 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         while (iterator.hasNext()) {
             Map.Entry<String, Location> entry = iterator.next();
             FireAlarmScreen fireAlarmScreen = this.plugin.getSetListMap().getFireAlarmScreenMap().get(entry.getValue());
-            FireAlarmSignOS fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
+            FireAlarmSignOS fireAlarmSignOS = null;
+            if (fireAlarmScreen != null)
+                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
 
             if (fireAlarmSignOS != null) {
                 fireAlarmSignOS.resetSign(fireAlarmScreen.getSignScreenManager(), Objects.requireNonNull(SignUtils.isSign(fireAlarmScreen.getLocation().getBlock())), true);
@@ -95,7 +97,9 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         while (iterator.hasNext()) {
             Map.Entry<String, Location> entry = iterator.next();
             FireAlarmScreen fireAlarmScreen = this.plugin.getSetListMap().getFireAlarmScreenMap().get(entry.getValue());
-            FireAlarmSignOS fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
+            FireAlarmSignOS fireAlarmSignOS = null;
+            if (fireAlarmScreen != null)
+                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
 
             if (fireAlarmSignOS != null) {
                 fireAlarmSignOS.sendPopup(fireAlarmScreen.getSignScreenManager(), SignUtils.isSign(fireAlarmScreen.getLocation().getBlock()), fireAlarmReason);
