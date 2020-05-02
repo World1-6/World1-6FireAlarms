@@ -2,7 +2,6 @@ package com.andrew121410.mc.world16firealarms.managers;
 
 import com.andrew121410.mc.world16firealarms.Main;
 import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
-import com.andrew121410.mc.world16firealarms.interfaces.IStrobe;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.config.CustomYmlManager;
@@ -56,22 +55,6 @@ public class FireAlarmManager {
         for (String fireAlarm : cs.getKeys(false)) {
             ConfigurationSection fireAlarmConfig = cs.getConfigurationSection(fireAlarm);
             IFireAlarm iFireAlarm = (IFireAlarm) fireAlarmConfig.get("IFireAlarm");
-
-            //Strobes
-            ConfigurationSection strobesConfig = fireAlarmConfig.getConfigurationSection("Strobes");
-            if (strobesConfig != null) {
-                for (String strobes : strobesConfig.getKeys(false)) {
-                    iFireAlarm.registerStrobe((IStrobe) strobesConfig.get(strobes));
-                }
-            }
-
-            //Signs
-            ConfigurationSection signsConfig = fireAlarmConfig.getConfigurationSection("Signs");
-            if (signsConfig != null) {
-                for (String sign : signsConfig.getKeys(false)) {
-                    iFireAlarm.registerSign(sign, (Location) signsConfig.get(sign));
-                }
-            }
             fireAlarmMap.putIfAbsent(fireAlarm, iFireAlarm);
         }
 
@@ -98,33 +81,6 @@ public class FireAlarmManager {
             }
 
             fireAlarmConfig.set("IFireAlarm", v);
-
-            //Strobes
-            ConfigurationSection fireAlarmStrobesConfig = fireAlarmConfig.getConfigurationSection("Strobes");
-            if (fireAlarmStrobesConfig == null) {
-                fireAlarmStrobesConfig = fireAlarmConfig.createSection("Strobes");
-                this.fireAlarmsYml.saveConfig();
-            }
-
-            for (Map.Entry<String, IStrobe> e : v.getStrobesMap().entrySet()) {
-                String k1 = e.getKey();
-                IStrobe v1 = e.getValue();
-                fireAlarmStrobesConfig.set(k1, v1);
-            }
-
-            //Signs
-            ConfigurationSection fireAlarmSignConfig = fireAlarmConfig.getConfigurationSection("Signs");
-            if (fireAlarmSignConfig == null) {
-                fireAlarmSignConfig = fireAlarmConfig.createSection("Signs");
-                this.fireAlarmsYml.saveConfig();
-            }
-
-            for (Map.Entry<String, Location> e : v.getSigns().entrySet()) {
-                String key = e.getKey();
-                Location value = e.getValue();
-                fireAlarmSignConfig.set(key.toLowerCase(), value);
-            }
-
             this.fireAlarmsYml.saveConfig();
         }
 

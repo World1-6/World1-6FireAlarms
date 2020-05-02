@@ -7,21 +7,19 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Lightable;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SerializableAs("IStrobe")
-public class SimpleStrobe implements IStrobe, ConfigurationSerializable {
+public class SimpleStrobe implements IStrobe {
 
     private String name;
     private Location location;
+    private FireAlarmSound fireAlarmSound;
 
     private boolean isLight;
-
-    private FireAlarmSound fireAlarmSound;
 
     public SimpleStrobe(Location block, String name) {
         this.location = block;

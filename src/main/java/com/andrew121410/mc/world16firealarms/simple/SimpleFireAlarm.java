@@ -32,16 +32,15 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
     private FireAlarmSettings fireAlarmSettings;
 
     public SimpleFireAlarm(Main plugin, String name, FireAlarmSettings fireAlarmSettings) {
+        this(plugin, name, fireAlarmSettings, new HashMap<>(), new HashMap<>());
+    }
+
+    public SimpleFireAlarm(Main plugin, String name, FireAlarmSettings fireAlarmSettings, Map<String, IStrobe> strobesMap, Map<String, Location> signsMap) {
         this.plugin = plugin;
-
         this.name = name;
-
         this.fireAlarmSettings = fireAlarmSettings;
-
-        //Maps / Sets
-        this.strobesMap = new HashMap<>();
-        this.signsMap = new HashMap<>();
-
+        this.strobesMap = strobesMap;
+        this.signsMap = signsMap;
         this.fireAlarmStatus = FireAlarmStatus.READY;
     }
 
@@ -274,10 +273,12 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         Map<String, Object> map = new HashMap<>();
         map.put("Name", this.name);
         map.put("FireAlarmSettings", this.fireAlarmSettings);
+        map.put("StrobesMap", this.strobesMap);
+        map.put("SignsMap", this.signsMap);
         return map;
     }
 
     public static SimpleFireAlarm deserialize(Map<String, Object> map) {
-        return new SimpleFireAlarm(Main.getInstance(), (String) map.get("Name"), (FireAlarmSettings) map.get("FireAlarmSettings"));
+        return new SimpleFireAlarm(Main.getInstance(), (String) map.get("Name"), (FireAlarmSettings) map.get("FireAlarmSettings"), (Map<String, IStrobe>) map.get("StrobesMap"), (Map<String, Location>) map.get("SignsMap"));
     }
 }
