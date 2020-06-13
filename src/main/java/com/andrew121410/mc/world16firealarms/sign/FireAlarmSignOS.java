@@ -114,7 +114,7 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_MENU;
         SignLayout signLayout = new SignLayout("SettingsMain", "Main");
         SignPage signPage = new SignPage("Settings", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
-        signPage.setLine(0, "^Settings Page");
+        signPage.setLine(0, "^&6Settings Page");
         signPage.setLine(1, "-Test fire alarm");
         signPage.setLine(2, "-Change tempo");
         signPage.setLine(3, "-Info");
@@ -126,7 +126,7 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_TEST_FIREALARM;
         SignLayout signLayout = new SignLayout("TestFireAlarmMain", "SettingsMain");
         SignPage signPage = new SignPage("TestFireAlarm", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
-        signPage.setLine(0, "^TestFireAlarm");
+        signPage.setLine(0, "^&6TestFireAlarm");
         signPage.setLine(1, "-Alarm");
         signPage.setLine(2, "Trouble_NOT_IM");
         signPage.setLine(3, "-Reset");
@@ -138,7 +138,7 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_CHANGE_TEMPO;
         SignLayout signLayout = new SignLayout("ChangeTempoMain", "SettingsMain");
         SignPage signPage = new SignPage("ChangeTempo", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
-        signPage.setLine(0, "^ChangeTempo");
+        signPage.setLine(0, "^&6ChangeTempo");
         signPage.setLine(1, "-MARCH_TIME");
         signPage.setLine(2, "-CODE_3");
         signLayout.addSignPage(signPage);
@@ -150,7 +150,7 @@ public class FireAlarmSignOS implements ISignScreen {
         SignLayout signLayout = new SignLayout("InfoMain", "SettingsMain");
         SignPage signPage = new SignPage("Info", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
         IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
-        signPage.setLine(0, "^Info");
+        signPage.setLine(0, "^&6Info");
         signPage.setLine(1, this.fireAlarmName);
         signPage.setLine(2, "Ver: " + this.version);
         signPage.setLine(3, "P>NOS" + iFireAlarm.getStrobesMap().size());
@@ -175,7 +175,7 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.ALARM_POPUP;
         SignLayout signLayout = new SignLayout("POPUP", "Main");
         SignPage signPage = new SignPage("Popup", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
-        signPage.setLine(0, "^Popup ALERT");
+        signPage.setLine(0, "^&c&lPopup ALERT");
 
         if (fireAlarmReason.getTroubleReason() == TroubleReason.PANEL_TEST) {
             signPage.setLine(1, fireAlarmReason.getTroubleReason().toString());
