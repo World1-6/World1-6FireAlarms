@@ -27,7 +27,7 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         this.fireAlarmName = fireAlarmName;
         this.location = location;
 
-        this.signScreenManager = new SignScreenManager(this.plugin, location, name, 5L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
+        this.signScreenManager = new SignScreenManager(this.plugin, location, name, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
     }
 
     public String getName() {

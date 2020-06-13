@@ -5,7 +5,6 @@ import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import com.andrew121410.mc.world16firealarms.interfaces.IStrobe;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmSignOS;
-import com.andrew121410.mc.world16utils.sign.SignUtils;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -14,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 
 @SerializableAs("IFireAlarm")
 public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
@@ -32,16 +30,15 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
     private FireAlarmSettings fireAlarmSettings;
 
     public SimpleFireAlarm(Main plugin, String name, FireAlarmSettings fireAlarmSettings) {
+        this(plugin, name, fireAlarmSettings, new HashMap<>(), new HashMap<>());
+    }
+
+    public SimpleFireAlarm(Main plugin, String name, FireAlarmSettings fireAlarmSettings, Map<String, IStrobe> strobesMap, Map<String, Location> signsMap) {
         this.plugin = plugin;
-
         this.name = name;
-
         this.fireAlarmSettings = fireAlarmSettings;
-
-        //Maps / Sets
-        this.strobesMap = new HashMap<>();
-        this.signsMap = new HashMap<>();
-
+        this.strobesMap = strobesMap;
+        this.signsMap = signsMap;
         this.fireAlarmStatus = FireAlarmStatus.READY;
     }
 
@@ -70,7 +67,7 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
                 fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
 
             if (fireAlarmSignOS != null) {
-                fireAlarmSignOS.resetSign(fireAlarmScreen.getSignScreenManager(), Objects.requireNonNull(SignUtils.isSign(fireAlarmScreen.getLocation().getBlock())), true);
+                fireAlarmSignOS.mainPage(fireAlarmScreen.getSignScreenManager());
             } else {
                 iterator.remove();
                 this.plugin.getFireAlarmManager().deleteFireAlarmSignScreen(name, entry.getKey().toLowerCase(), entry.getValue());
@@ -102,7 +99,7 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
                 fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
 
             if (fireAlarmSignOS != null) {
-                fireAlarmSignOS.sendPopup(fireAlarmScreen.getSignScreenManager(), SignUtils.isSign(fireAlarmScreen.getLocation().getBlock()), fireAlarmReason);
+                fireAlarmSignOS.sendPopup(fireAlarmScreen.getSignScreenManager(), fireAlarmReason);
             } else {
                 iterator.remove();
                 this.plugin.getFireAlarmManager().deleteFireAlarmSignScreen(name, entry.getKey().toLowerCase(), entry.getValue());
@@ -274,10 +271,12 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         Map<String, Object> map = new HashMap<>();
         map.put("Name", this.name);
         map.put("FireAlarmSettings", this.fireAlarmSettings);
+        map.put("StrobesMap", this.strobesMap);
+        map.put("SignsMap", this.signsMap);
         return map;
     }
 
     public static SimpleFireAlarm deserialize(Map<String, Object> map) {
-        return new SimpleFireAlarm(Main.getInstance(), (String) map.get("Name"), (FireAlarmSettings) map.get("FireAlarmSettings"));
+        return new SimpleFireAlarm(Main.getInstance(), (String) map.get("Name"), (FireAlarmSettings) map.get("FireAlarmSettings"), (Map<String, IStrobe>) map.get("StrobesMap"), (Map<String, Location>) map.get("SignsMap"));
     }
 }

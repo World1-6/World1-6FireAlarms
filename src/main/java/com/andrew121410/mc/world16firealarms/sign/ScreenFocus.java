@@ -34,10 +34,6 @@ public class ScreenFocus {
     }
 
     public void giveTools() {
-        ItemStack DOWN = new ItemStack(Material.DIAMOND_SWORD);
-        ItemMeta DOWNItemMeta = DOWN.getItemMeta();
-        DOWNItemMeta.setDisplayName("DOWN");
-        DOWN.setItemMeta(DOWNItemMeta);
 
         ItemStack SCROLLDOWN = new ItemStack(Material.GOLDEN_SWORD);
         ItemMeta SCROLLDOWNItemMeta = SCROLLDOWN.getItemMeta();
@@ -54,9 +50,8 @@ public class ScreenFocus {
         ExitItemmeta.setDisplayName("EXIT");
         Exit.setItemMeta(ExitItemmeta);
 
-        this.player.getInventory().setItem(0, DOWN);
-        this.player.getInventory().setItem(2, SCROLLDOWN);
-        this.player.getInventory().setItem(3, SCROLLUP);
+        this.player.getInventory().setItem(0, SCROLLDOWN);
+        this.player.getInventory().setItem(2, SCROLLUP);
         this.player.getInventory().setItem(8, Exit);
     }
 

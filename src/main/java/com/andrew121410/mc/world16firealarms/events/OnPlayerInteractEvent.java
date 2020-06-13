@@ -75,12 +75,10 @@ public class OnPlayerInteractEvent implements Listener {
                 signScreenManager.setStop(true);
                 screenFocus.revert();
                 this.screenFocusMap.remove(p.getUniqueId());
-            } else if (itemMeta.getDisplayName().equalsIgnoreCase("DOWN")) {
-                signScreenManager.changeLines(p);
             } else if (itemMeta.getDisplayName().equalsIgnoreCase("SCROLL UP")) {
-                signScreenManager.onScroll(p, false);
-            } else if (itemMeta.getDisplayName().equalsIgnoreCase("SCROLL DOWN")) {
                 signScreenManager.onScroll(p, true);
+            } else if (itemMeta.getDisplayName().equalsIgnoreCase("SCROLL DOWN")) {
+                signScreenManager.onScroll(p, false);
             }
         } else signScreenManager.onClick(p);
     }
