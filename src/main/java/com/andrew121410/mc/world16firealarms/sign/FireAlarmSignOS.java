@@ -6,6 +6,7 @@ import com.andrew121410.mc.world16firealarms.Main;
 import com.andrew121410.mc.world16firealarms.TroubleReason;
 import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
+import com.andrew121410.mc.world16utils.Utils;
 import com.andrew121410.mc.world16utils.chat.LanguageLocale;
 import com.andrew121410.mc.world16utils.sign.screen.ISignScreen;
 import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
@@ -147,6 +148,7 @@ public class FireAlarmSignOS implements ISignScreen {
 
     public void settings_Info_Page(SignScreenManager signScreenManager, Player player) {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_INFO;
+        Utils utils = new Utils();
         SignLayout signLayout = new SignLayout("InfoMain", "SettingsMain");
         SignPage signPage = new SignPage("Info", null, 0, 0, 3, new String[]{"*", "*", "*", "*"});
         IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
@@ -157,7 +159,7 @@ public class FireAlarmSignOS implements ISignScreen {
 
         SignPage signPage2 = new SignPage("Info2", "Info", 0, 0, 3, new String[]{"*", "*", "*", "*"});
         signPage2.setLine(0, "Sound: {BELOW}");
-        signPage2.setLine(1, iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name());
+        signPage2.setLine(1, utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5));
         signPage2.setLine(2, "Volume: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume());
         signPage2.setLine(3, "P>Pitch: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch());
 
