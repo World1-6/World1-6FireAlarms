@@ -188,6 +188,7 @@ public class FireAlarmSignOS implements ISignScreen {
         }
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);
+        signScreenManager.tick(); //Tick because it's an alert.
     }
 
     @Override
