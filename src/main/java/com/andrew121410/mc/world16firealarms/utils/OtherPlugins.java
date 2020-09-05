@@ -24,4 +24,8 @@ public class OtherPlugins {
             this.world16Utils = (World16Utils) plugin;
         }
     }
+
+    public World16Utils getWorld16Utils() {
+        return world16Utils;
+    }
 }

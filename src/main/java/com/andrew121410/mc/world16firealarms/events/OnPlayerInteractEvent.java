@@ -4,7 +4,6 @@ import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
 import com.andrew121410.mc.world16utils.blocks.sign.SignUtils;
-import com.andrew121410.mc.world16utils.blocks.sign.SignUtils_V1_16_R1;
 import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -32,7 +31,7 @@ public class OnPlayerInteractEvent implements Listener {
 
         this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
-        this.signUtils = new SignUtils_V1_16_R1(plugin);
+        this.signUtils = this.plugin.getOtherPlugins().getWorld16Utils().getClassWrappers().getSignUtils();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
