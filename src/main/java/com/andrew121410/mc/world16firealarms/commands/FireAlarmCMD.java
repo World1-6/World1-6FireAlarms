@@ -7,9 +7,10 @@ import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
 import com.andrew121410.mc.world16firealarms.tabcomplete.FireAlarmTab;
-import com.andrew121410.mc.world16utils.Utils;
 import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.player.PlayerUtils;
+import com.andrew121410.mc.world16utils.utils.Utils;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 public class FireAlarmCMD implements CommandExecutor {
 
-    private Main plugin;
+    private World16FireAlarms plugin;
     private Utils api;
 
     //Maps
@@ -33,7 +34,7 @@ public class FireAlarmCMD implements CommandExecutor {
     private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
     //...
 
-    public FireAlarmCMD(Main plugin) {
+    public FireAlarmCMD(World16FireAlarms plugin) {
         this.plugin = plugin;
 
         this.api = new Utils();
@@ -92,7 +93,8 @@ public class FireAlarmCMD implements CommandExecutor {
                 return true;
             } else if (args.length == 3 && args[1].equalsIgnoreCase("firealarm")) {
                 String name = args[2].toLowerCase();
-                IFireAlarm iFireAlarm = new SimpleFireAlarm(plugin, name, new FireAlarmSettings(new FireAlarmSound(), FireAlarmTempo.MARCH_TIME, null));
+                Chunk chunk = p.getLocation().getChunk();
+                IFireAlarm iFireAlarm = new SimpleFireAlarm(plugin, name, new Location(chunk.getWorld(), chunk.getX(), 0, chunk.getZ()));
                 this.fireAlarmMap.putIfAbsent(name, iFireAlarm);
                 p.sendMessage(Translate.chat("Fire Alarm: " + name + " is now registered."));
                 return true;
@@ -108,7 +110,7 @@ public class FireAlarmCMD implements CommandExecutor {
                 Location location = PlayerUtils.getBlockPlayerIsLookingAt(p).getLocation();
                 FireAlarmScreen fireAlarmScreen = new FireAlarmScreen(plugin, signName, fireAlarmName, location);
                 this.fireAlarmScreenMap.putIfAbsent(location, fireAlarmScreen);
-                this.fireAlarmMap.get(fireAlarmName).registerSign(signName, location);
+                this.fireAlarmMap.get(fireAlarmName).registerSign(signName, fireAlarmScreen);
                 p.sendMessage(Translate.chat("The sign: " + signName + " is now registered to " + fireAlarmName));
                 return true;
             } else if (args.length == 4 && args[1].equalsIgnoreCase("strobe")) {
@@ -147,24 +149,27 @@ public class FireAlarmCMD implements CommandExecutor {
                 String fireAlarmName = args[2].toLowerCase();
                 String strobeName = args[3].toLowerCase();
 
-                if (this.fireAlarmMap.get(fireAlarmName) == null) {
+                IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+                if (iFireAlarm == null) {
                     p.sendMessage(Translate.chat("There's no such fire alarm called: " + fireAlarmName));
                     return true;
                 }
 
-                if (this.fireAlarmMap.get(fireAlarmName).getStrobesMap().get(strobeName) == null) {
+
+                if (!this.fireAlarmMap.get(fireAlarmName).getStrobesMap().containsKey(strobeName)) {
                     p.sendMessage(Translate.chat("THere's no such strobe named: " + strobeName));
                     return true;
                 }
 
-                this.plugin.getFireAlarmManager().deleteFireAlarmStrobe(fireAlarmName, strobeName);
+                iFireAlarm.getStrobesMap().remove(strobeName);
                 p.sendMessage(Translate.chat("The strobe: " + strobeName + " for the fire alarm: " + fireAlarmName + " has been removed."));
                 return true;
             } else if (args.length == 3 && args[1].equalsIgnoreCase("strobe")) {
                 String fireAlarmName = args[2].toLowerCase();
                 Location location = PlayerUtils.getBlockPlayerIsLookingAt(p).getLocation();
 
-                if (this.fireAlarmMap.get(fireAlarmName) == null) {
+                IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+                if (iFireAlarm == null) {
                     p.sendMessage(Translate.chat("There's no such fire alarm called: " + fireAlarmName));
                     return true;
                 }
@@ -192,13 +197,13 @@ public class FireAlarmCMD implements CommandExecutor {
                     p.sendMessage(Translate.chat("Could not find..."));
                     return true;
                 }
-                this.plugin.getFireAlarmManager().deleteFireAlarmStrobe(fireAlarmName, iStrobe.getName());
+                iFireAlarm.getStrobesMap().remove(iStrobe.getName());
                 p.sendMessage(Translate.chat("The strobe: " + iStrobe.getName() + " has been deleted from fire alarm: " + fireAlarmName));
                 return true;
             }
             return true;
         } else if (args[0].equalsIgnoreCase("load")) {
-            this.plugin.getFireAlarmManager().loadFireAlarms();
+            this.plugin.getFireAlarmManager().loadAllFireAlarms();
             p.sendMessage(Translate.chat("Fire alarm's have been loaded in memory."));
             return true;
         } else if (args[0].equalsIgnoreCase("unload")) {
@@ -209,7 +214,7 @@ public class FireAlarmCMD implements CommandExecutor {
             boolean bool = api.asBooleanOrDefault(args[1], true);
 
             if (bool) {
-                this.plugin.getFireAlarmManager().saveFireAlarms();
+                this.plugin.getFireAlarmManager().saveAllFireAlarms();
             }
 
             this.fireAlarmMap.clear();

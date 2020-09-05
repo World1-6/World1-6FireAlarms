@@ -5,15 +5,17 @@ import com.andrew121410.mc.world16firealarms.events.OnBlockBreakEvent;
 import com.andrew121410.mc.world16firealarms.events.OnInventoryClickEvent;
 import com.andrew121410.mc.world16firealarms.events.OnPlayerInteractEvent;
 import com.andrew121410.mc.world16firealarms.events.OnPlayerQuitEvent;
+import com.andrew121410.mc.world16firealarms.managers.FireAlarmChunkSmartManager;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmManager;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
+import com.andrew121410.mc.world16firealarms.utils.OtherPlugins;
 import com.andrew121410.mc.world16firealarms.utils.SetListMap;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Main extends JavaPlugin {
+public final class World16FireAlarms extends JavaPlugin {
 
     static {
         ConfigurationSerialization.registerClass(FireAlarmSound.class, "FireAlarmSound");
@@ -23,19 +25,32 @@ public final class Main extends JavaPlugin {
         ConfigurationSerialization.registerClass(FireAlarmScreen.class, "FireAlarmScreen");
     }
 
-    private static Main instance;
-
+    private static World16FireAlarms instance;
     private SetListMap setListMap;
+    private OtherPlugins otherPlugins;
 
     private FireAlarmManager fireAlarmManager;
+
+    //Config
+    private boolean chunkSmartManagement = false;
 
     @Override
     public void onEnable() {
         instance = this;
         this.setListMap = new SetListMap();
+        this.otherPlugins = new OtherPlugins(this);
+
+        regDefaultConfig();
+
+        //Config
+        this.chunkSmartManagement = this.getConfig().getBoolean("ChunkSmartManagement");
 
         this.fireAlarmManager = new FireAlarmManager(this);
-        this.fireAlarmManager.loadFireAlarms();
+        this.fireAlarmManager.loadAllFireAlarms();
+
+        if (chunkSmartManagement) {
+            this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new FireAlarmChunkSmartManager(this), 200L, 200L);
+        }
 
         regEvents();
         regCommands();
@@ -43,21 +58,27 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.fireAlarmManager.saveFireAlarms();
+        this.fireAlarmManager.saveAllFireAlarms();
     }
 
-    public void regCommands() {
+    private void regCommands() {
         new FireAlarmCMD(this);
     }
 
-    public void regEvents() {
+    private void regEvents() {
         new OnBlockBreakEvent(this);
         new OnPlayerInteractEvent(this);
         new OnInventoryClickEvent(this);
         new OnPlayerQuitEvent(this);
     }
 
-    public static Main getInstance() {
+    private void regDefaultConfig() {
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+        this.reloadConfig();
+    }
+
+    public static World16FireAlarms getInstance() {
         return instance;
     }
 
@@ -67,5 +88,13 @@ public final class Main extends JavaPlugin {
 
     public FireAlarmManager getFireAlarmManager() {
         return fireAlarmManager;
+    }
+
+    public OtherPlugins getOtherPlugins() {
+        return otherPlugins;
+    }
+
+    public boolean isChunkSmartManagement() {
+        return chunkSmartManagement;
     }
 }

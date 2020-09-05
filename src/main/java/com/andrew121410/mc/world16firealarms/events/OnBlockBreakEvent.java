@@ -1,6 +1,6 @@
 package com.andrew121410.mc.world16firealarms.events;
 
-import com.andrew121410.mc.world16firealarms.Main;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -12,11 +12,11 @@ import java.util.Map;
 
 public class OnBlockBreakEvent implements Listener {
 
-    private Main plugin;
+    private World16FireAlarms plugin;
 
     private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
 
-    public OnBlockBreakEvent(Main plugin) {
+    public OnBlockBreakEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
         this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
@@ -26,12 +26,11 @@ public class OnBlockBreakEvent implements Listener {
 
     @EventHandler
     public void onBlockBreakEvent(BlockBreakEvent event) {
-
-        if (fireAlarmScreenMap.get(event.getBlock().getLocation()) != null) {
+        if (fireAlarmScreenMap.containsKey(event.getBlock().getLocation())) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    plugin.getFireAlarmManager().deleteFireAlarmSignScreen(event.getBlock().getLocation());
+                    plugin.getFireAlarmManager().deleteFireAlarmSign(fireAlarmScreenMap.get(event.getBlock().getLocation()));
                 }
             }.runTaskLater(plugin, 20L);
         }

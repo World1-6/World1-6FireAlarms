@@ -1,6 +1,6 @@
 package com.andrew121410.mc.world16firealarms.events;
 
-import com.andrew121410.mc.world16firealarms.Main;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,9 +14,9 @@ public class OnPlayerQuitEvent implements Listener {
 
     private Map<UUID, ScreenFocus> screenFocusMap;
 
-    private Main plugin;
+    private World16FireAlarms plugin;
 
-    public OnPlayerQuitEvent(Main plugin) {
+    public OnPlayerQuitEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
 

@@ -1,9 +1,12 @@
 name: World1-6FireAlarms
 version: ${project.version}
-main: com.andrew121410.mc.world16firealarms.Main
-api-version: 1.15
+main: com.andrew121410.mc.world16firealarms.World16FireAlarms
+api-version: 1.16
 authors: [Andrew121410]
 description: A fire alarm plugin that i made for a private mc server
+
+depend:
+  - World1-6Utils
 
 commands:
   firealarm:

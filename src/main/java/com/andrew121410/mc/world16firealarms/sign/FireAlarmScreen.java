@@ -1,7 +1,7 @@
 package com.andrew121410.mc.world16firealarms.sign;
 
-import com.andrew121410.mc.world16firealarms.Main;
-import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
+import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -18,16 +18,14 @@ public class FireAlarmScreen implements ConfigurationSerializable {
 
     private SignScreenManager signScreenManager;
 
-    private Main plugin;
+    private World16FireAlarms plugin;
 
-    public FireAlarmScreen(Main plugin, String name, String fireAlarmName, Location location) {
+    public FireAlarmScreen(World16FireAlarms plugin, String name, String fireAlarmName, Location location) {
         this.plugin = plugin;
-
         this.name = name;
         this.fireAlarmName = fireAlarmName;
         this.location = location;
-
-        this.signScreenManager = new SignScreenManager(this.plugin, location, name, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
+        this.signScreenManager = new SignScreenManager(this.plugin, name, location, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
     }
 
     public String getName() {
@@ -46,7 +44,7 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         return signScreenManager;
     }
 
-    public Main getPlugin() {
+    public World16FireAlarms getPlugin() {
         return plugin;
     }
 
@@ -60,6 +58,6 @@ public class FireAlarmScreen implements ConfigurationSerializable {
     }
 
     public static FireAlarmScreen deserialize(Map<String, Object> map) {
-        return new FireAlarmScreen(Main.getInstance(), (String) map.get("Name"), (String) map.get("FireAlarmName"), (Location) map.get("Location"));
+        return new FireAlarmScreen(World16FireAlarms.getInstance(), (String) map.get("Name"), (String) map.get("FireAlarmName"), (Location) map.get("Location"));
     }
 }

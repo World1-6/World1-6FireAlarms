@@ -17,6 +17,10 @@ public class FireAlarmSettings implements ConfigurationSerializable {
         this.commandTrigger = commandTrigger;
     }
 
+    public FireAlarmSettings() {
+        this(new FireAlarmSound(), FireAlarmTempo.MARCH_TIME, null);
+    }
+
     public FireAlarmSound getFireAlarmSound() {
         return fireAlarmSound;
     }

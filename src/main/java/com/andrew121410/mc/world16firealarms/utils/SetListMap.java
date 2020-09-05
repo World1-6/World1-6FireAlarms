@@ -11,13 +11,18 @@ import java.util.UUID;
 
 public class SetListMap {
 
-    private Map<String, IFireAlarm> fireAlarmMap;
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
-    private Map<UUID, ScreenFocus> screenFocusMap;
+    //0 is when the server shuts down.
+    //1 is when the player quits.
+
+    private Map<String, IFireAlarm> fireAlarmMap; //0
+    private Map<Location, FireAlarmScreen> fireAlarmScreenMap; //0
+    private Map<Location, String> chunkToFireAlarmName; //0
+    private Map<UUID, ScreenFocus> screenFocusMap; //1
 
     public SetListMap() {
         this.fireAlarmMap = new HashMap<>();
         this.fireAlarmScreenMap = new HashMap<>();
+        this.chunkToFireAlarmName = new HashMap<>();
         this.screenFocusMap = new HashMap<>();
     }
 
@@ -27,6 +32,10 @@ public class SetListMap {
 
     public Map<Location, FireAlarmScreen> getFireAlarmScreenMap() {
         return fireAlarmScreenMap;
+    }
+
+    public Map<Location, String> getChunkToFireAlarmName() {
+        return chunkToFireAlarmName;
     }
 
     public Map<UUID, ScreenFocus> getScreenFocusMap() {

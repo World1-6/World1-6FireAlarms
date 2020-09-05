@@ -1,7 +1,7 @@
 package com.andrew121410.mc.world16firealarms.tabcomplete;
 
 import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
-import com.andrew121410.mc.world16firealarms.Main;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -21,9 +21,9 @@ public class FireAlarmTab implements TabCompleter {
 
     private Map<String, IFireAlarm> iFireAlarmMap;
 
-    private Main plugin;
+    private World16FireAlarms plugin;
 
-    public FireAlarmTab(Main plugin) {
+    public FireAlarmTab(World16FireAlarms plugin) {
         this.plugin = plugin;
 
         this.tabCompleteMap = new ArrayList<>();

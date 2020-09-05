@@ -1,6 +1,6 @@
 package com.andrew121410.mc.world16firealarms.sign;
 
-import com.andrew121410.mc.world16firealarms.Main;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,14 +12,14 @@ import java.util.Collection;
 
 public class ScreenFocus {
 
-    private Main plugin;
+    private World16FireAlarms plugin;
 
     private Player player;
 
     private ItemStack[] oldInv;
     private Collection<PotionEffect> potionEffects;
 
-    public ScreenFocus(Main plugin, Player player) {
+    public ScreenFocus(World16FireAlarms plugin, Player player) {
         this.plugin = plugin;
         this.player = player;
         this.oldInv = player.getInventory().getContents();
