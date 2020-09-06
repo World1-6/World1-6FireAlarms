@@ -1,8 +1,6 @@
 package com.andrew121410.mc.world16firealarms.simple;
 
 import com.andrew121410.mc.world16firealarms.*;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
-import com.andrew121410.mc.world16firealarms.interfaces.IStrobe;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmSignOS;
 import org.bukkit.Location;
@@ -14,15 +12,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@SerializableAs("IFireAlarm")
-public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
+@SerializableAs("SimpleFireAlarm")
+public class SimpleFireAlarm implements ConfigurationSerializable {
 
     private World16FireAlarms plugin;
 
     private String name;
     private Location mainChunk;
 
-    private Map<String, IStrobe> strobesMap;
+    private Map<String, SimpleStrobe> strobesMap;
     private Map<String, FireAlarmScreen> signsMap;
 
     private FireAlarmStatus fireAlarmStatus;
@@ -34,7 +32,7 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         this(plugin, name, mainChunk, new FireAlarmSettings(), new HashMap<>(), new HashMap<>());
     }
 
-    public SimpleFireAlarm(World16FireAlarms plugin, String name, Location mainChunk, FireAlarmSettings fireAlarmSettings, Map<String, IStrobe> strobesMap, Map<String, FireAlarmScreen> signsMap) {
+    public SimpleFireAlarm(World16FireAlarms plugin, String name, Location mainChunk, FireAlarmSettings fireAlarmSettings, Map<String, SimpleStrobe> strobesMap, Map<String, FireAlarmScreen> signsMap) {
         this.plugin = plugin;
         this.name = name;
         this.mainChunk = mainChunk;
@@ -44,7 +42,7 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         this.fireAlarmStatus = FireAlarmStatus.READY;
     }
 
-    public void registerStrobe(IStrobe iStrobe) {
+    public void registerStrobe(SimpleStrobe iStrobe) {
         this.strobesMap.putIfAbsent(iStrobe.getName(), iStrobe);
         this.strobesMap.get(iStrobe.getName()).setFireAlarmSound(fireAlarmSettings.getFireAlarmSound());
     }
@@ -111,9 +109,9 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
     }
 
     private void resetStrobes() {
-        for (Map.Entry<String, IStrobe> entry : this.strobesMap.entrySet()) {
+        for (Map.Entry<String, SimpleStrobe> entry : this.strobesMap.entrySet()) {
             String k = entry.getKey();
-            IStrobe v = entry.getValue();
+            SimpleStrobe v = entry.getValue();
             v.off();
         }
     }
@@ -129,16 +127,16 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
                 public void run() {
                     if (fireAlarmStatus == FireAlarmStatus.ALARM) {
                         if (marchTime == 0) {
-                            for (Map.Entry<String, IStrobe> entry : strobesMap.entrySet()) {
+                            for (Map.Entry<String, SimpleStrobe> entry : strobesMap.entrySet()) {
                                 String k = entry.getKey();
-                                IStrobe v = entry.getValue();
+                                SimpleStrobe v = entry.getValue();
                                 v.on();
                             }
                             marchTime++;
                         } else if (marchTime >= 1) {
-                            for (Map.Entry<String, IStrobe> entry : strobesMap.entrySet()) {
+                            for (Map.Entry<String, SimpleStrobe> entry : strobesMap.entrySet()) {
                                 String k = entry.getKey();
-                                IStrobe v = entry.getValue();
+                                SimpleStrobe v = entry.getValue();
                                 v.off();
                             }
                             marchTime = 0;
@@ -165,16 +163,16 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
                 public void run() {
                     if (fireAlarmStatus == FireAlarmStatus.ALARM) {
                         if (code3 == 0 || code3 == 2 || code3 == 4) {
-                            for (Map.Entry<String, IStrobe> entry : strobesMap.entrySet()) {
+                            for (Map.Entry<String, SimpleStrobe> entry : strobesMap.entrySet()) {
                                 String k = entry.getKey();
-                                IStrobe v = entry.getValue();
+                                SimpleStrobe v = entry.getValue();
                                 v.on();
                             }
                             code3++;
                         } else if (code3 == 1 || code3 == 3 || code3 == 5) {
-                            for (Map.Entry<String, IStrobe> entry : strobesMap.entrySet()) {
+                            for (Map.Entry<String, SimpleStrobe> entry : strobesMap.entrySet()) {
                                 String k = entry.getKey();
-                                IStrobe v = entry.getValue();
+                                SimpleStrobe v = entry.getValue();
                                 v.off();
                             }
                             code3++;
@@ -205,12 +203,11 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         this.name = name;
     }
 
-    @Override
-    public Map<String, IStrobe> getStrobesMap() {
+    public Map<String, SimpleStrobe> getStrobesMap() {
         return strobesMap;
     }
 
-    public void setStrobesMap(Map<String, IStrobe> strobesMap) {
+    public void setStrobesMap(Map<String, SimpleStrobe> strobesMap) {
         this.strobesMap = strobesMap;
     }
 
@@ -234,12 +231,10 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
         isAlarmCurrently = alarmCurrently;
     }
 
-    @Override
     public FireAlarmSettings getFireAlarmSettings() {
         return fireAlarmSettings;
     }
 
-    @Override
     public Location getMainChunk() {
         return mainChunk;
     }
@@ -276,6 +271,6 @@ public class SimpleFireAlarm implements IFireAlarm, ConfigurationSerializable {
     }
 
     public static SimpleFireAlarm deserialize(Map<String, Object> map) {
-        return new SimpleFireAlarm(World16FireAlarms.getInstance(), (String) map.get("Name"), (Location) map.get("MainChunk"), (FireAlarmSettings) map.get("FireAlarmSettings"), (Map<String, IStrobe>) map.get("StrobesMap"), (Map<String, FireAlarmScreen>) map.get("SignsMap"));
+        return new SimpleFireAlarm(World16FireAlarms.getInstance(), (String) map.get("Name"), (Location) map.get("MainChunk"), (FireAlarmSettings) map.get("FireAlarmSettings"), (Map<String, SimpleStrobe>) map.get("StrobesMap"), (Map<String, FireAlarmScreen>) map.get("SignsMap"));
     }
 }

@@ -1,31 +1,20 @@
 package com.andrew121410.mc.world16firealarms;
 
-import java.util.Optional;
-
 public class FireAlarmReason {
 
     private TroubleReason troubleReason;
+    private String reason;
 
-    private Optional<String> optionalPullStationName = Optional.empty();
-
-    public FireAlarmReason(TroubleReason troubleReason) {
+    public FireAlarmReason(TroubleReason troubleReason, String reason) {
         this.troubleReason = troubleReason;
+        this.reason = reason;
     }
 
-    //Getter's and Setters
     public TroubleReason getTroubleReason() {
         return troubleReason;
     }
 
-    public void setTroubleReason(TroubleReason troubleReason) {
-        this.troubleReason = troubleReason;
-    }
-
-    public Optional<String> getOptionalPullStationName() {
-        return optionalPullStationName;
-    }
-
-    public void setOptionalPullStationName(Optional<String> optionalPullStationName) {
-        this.optionalPullStationName = optionalPullStationName;
+    public String getReason() {
+        return reason;
     }
 }

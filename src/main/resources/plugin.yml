@@ -1,5 +1,5 @@
 name: World1-6FireAlarms
-version: ${project.version}
+version: 1.0
 main: com.andrew121410.mc.world16firealarms.World16FireAlarms
 api-version: 1.16
 authors: [Andrew121410]

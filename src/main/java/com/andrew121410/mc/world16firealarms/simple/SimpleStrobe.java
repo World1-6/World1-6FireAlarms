@@ -1,19 +1,19 @@
 package com.andrew121410.mc.world16firealarms.simple;
 
 import com.andrew121410.mc.world16firealarms.FireAlarmSound;
-import com.andrew121410.mc.world16firealarms.interfaces.IStrobe;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Lightable;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@SerializableAs("IStrobe")
-public class SimpleStrobe implements IStrobe {
+@SerializableAs("SimpleStrobe")
+public class SimpleStrobe implements ConfigurationSerializable {
 
     private String name;
     private Location location;

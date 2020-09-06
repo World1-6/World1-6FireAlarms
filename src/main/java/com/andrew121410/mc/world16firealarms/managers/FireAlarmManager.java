@@ -1,8 +1,8 @@
 package com.andrew121410.mc.world16firealarms.managers;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
+import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.config.CustomYmlManager;
 import org.bukkit.Location;
@@ -16,7 +16,7 @@ public class FireAlarmManager {
 
     private CustomYmlManager fireAlarmsYml;
 
-    private Map<String, IFireAlarm> fireAlarmMap;
+    private Map<String, SimpleFireAlarm> fireAlarmMap;
     private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
 
     public FireAlarmManager(World16FireAlarms plugin) {
@@ -32,12 +32,12 @@ public class FireAlarmManager {
         //...
     }
 
-    private IFireAlarm load(String key) {
+    private SimpleFireAlarm load(String key) {
         ConfigurationSection cs = this.fireAlarmsYml.getConfig().getConfigurationSection("FireAlarms");
-        return (IFireAlarm) cs.get(key);
+        return (SimpleFireAlarm) cs.get(key);
     }
 
-    private void save(IFireAlarm iFireAlarm) {
+    private void save(SimpleFireAlarm iFireAlarm) {
         ConfigurationSection cs = this.fireAlarmsYml.getConfig().getConfigurationSection("FireAlarms");
         cs.set(iFireAlarm.getName(), iFireAlarm);
         this.fireAlarmsYml.saveConfig();
@@ -47,12 +47,12 @@ public class FireAlarmManager {
         ConfigurationSection cs = getFireAlarmsConfigurationSection();
 
         for (String key : cs.getKeys(false)) {
-            IFireAlarm iFireAlarm = load(key);
+            SimpleFireAlarm simpleFireAlarm = load(key);
             if (this.plugin.isChunkSmartManagement()) {
-                this.plugin.getSetListMap().getChunkToFireAlarmName().put(iFireAlarm.getMainChunk(), key);
+                this.plugin.getSetListMap().getChunkToFireAlarmName().put(simpleFireAlarm.getMainChunk(), key);
             } else {
-                this.fireAlarmMap.put(key, iFireAlarm);
-                for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
+                this.fireAlarmMap.put(key, simpleFireAlarm);
+                for (FireAlarmScreen value : simpleFireAlarm.getSignsMap().values()) {
                     this.fireAlarmScreenMap.put(value.getLocation(), value);
                 }
             }
@@ -61,20 +61,20 @@ public class FireAlarmManager {
 
     public void saveAllFireAlarms() {
         ConfigurationSection cs = getFireAlarmsConfigurationSection();
-        for (IFireAlarm value : this.fireAlarmMap.values()) save(value);
+        for (SimpleFireAlarm value : this.fireAlarmMap.values()) save(value);
     }
 
-    public IFireAlarm loadUpFireAlarm(String key) {
-        IFireAlarm iFireAlarm = load(key);
-        if (iFireAlarm == null) throw new NullPointerException("NPE loadUpFireAlarm");
-        this.fireAlarmMap.putIfAbsent(iFireAlarm.getName(), iFireAlarm);
-        for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
+    public SimpleFireAlarm loadUpFireAlarm(String key) {
+        SimpleFireAlarm simpleFireAlarm = load(key);
+        if (simpleFireAlarm == null) throw new NullPointerException("NPE loadUpFireAlarm");
+        this.fireAlarmMap.putIfAbsent(simpleFireAlarm.getName(), simpleFireAlarm);
+        for (FireAlarmScreen value : simpleFireAlarm.getSignsMap().values()) {
             this.fireAlarmScreenMap.putIfAbsent(value.getLocation(), value);
         }
-        return iFireAlarm;
+        return simpleFireAlarm;
     }
 
-    public void saveAndUnloadFireAlarm(IFireAlarm iFireAlarm) {
+    public void saveAndUnloadFireAlarm(SimpleFireAlarm iFireAlarm) {
         save(iFireAlarm);
         for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
             this.fireAlarmScreenMap.remove(value.getLocation());
@@ -84,18 +84,18 @@ public class FireAlarmManager {
 
     public void deleteFireAlarm(String fireAlarm) {
         ConfigurationSection cs = getFireAlarmsConfigurationSection();
-        IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarm);
-        if (iFireAlarm == null) return;
-        cs.set(iFireAlarm.getName(), null);
+        SimpleFireAlarm simpleFireAlarm = this.fireAlarmMap.get(fireAlarm);
+        if (simpleFireAlarm == null) return;
+        cs.set(simpleFireAlarm.getName(), null);
         this.fireAlarmsYml.saveConfig();
     }
 
     public void deleteFireAlarmSign(String fireAlarm, String signName) {
-        IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarm);
-        FireAlarmScreen fireAlarmScreen = iFireAlarm.getSignsMap().get(signName);
+        SimpleFireAlarm simpleFireAlarm = this.fireAlarmMap.get(fireAlarm);
+        FireAlarmScreen fireAlarmScreen = simpleFireAlarm.getSignsMap().get(signName);
         if (fireAlarmScreen == null) return;
         this.fireAlarmScreenMap.remove(fireAlarmScreen.getLocation());
-        iFireAlarm.getSignsMap().remove(fireAlarmScreen.getName());
+        simpleFireAlarm.getSignsMap().remove(fireAlarmScreen.getName());
     }
 
     public void deleteFireAlarmSign(FireAlarmScreen fireAlarmScreen) {
