@@ -33,12 +33,12 @@ public class FireAlarmManager {
     }
 
     private SimpleFireAlarm load(String key) {
-        ConfigurationSection cs = this.fireAlarmsYml.getConfig().getConfigurationSection("FireAlarms");
+        ConfigurationSection cs = getFireAlarmsConfigurationSection();
         return (SimpleFireAlarm) cs.get(key);
     }
 
     private void save(SimpleFireAlarm iFireAlarm) {
-        ConfigurationSection cs = this.fireAlarmsYml.getConfig().getConfigurationSection("FireAlarms");
+        ConfigurationSection cs = getFireAlarmsConfigurationSection();
         cs.set(iFireAlarm.getName(), iFireAlarm);
         this.fireAlarmsYml.saveConfig();
     }

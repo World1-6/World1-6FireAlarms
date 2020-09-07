@@ -2,6 +2,7 @@ package com.andrew121410.mc.world16firealarms.managers;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.Iterator;
@@ -30,9 +31,11 @@ public class FireAlarmChunkSmartManager implements Runnable {
             boolean isChunkLoaded = location.getWorld().isChunkLoaded(location.getBlockX(), location.getBlockZ());
             if (isChunkLoaded && !this.iFireAlarmMap.containsKey(fireAlarmName)) {
                 this.plugin.getFireAlarmManager().loadUpFireAlarm(fireAlarmName);
+                Bukkit.getServer().broadcastMessage("Loaded: " + fireAlarmName);
             } else if (!isChunkLoaded && this.iFireAlarmMap.containsKey(fireAlarmName)) {
                 SimpleFireAlarm simpleFireAlarm = this.iFireAlarmMap.get(fireAlarmName);
                 this.plugin.getFireAlarmManager().saveAndUnloadFireAlarm(simpleFireAlarm);
+                Bukkit.getServer().broadcastMessage("Unloaded: " + fireAlarmName);
             }
         }
     }

@@ -3,7 +3,6 @@ package com.andrew121410.mc.world16firealarms.simple;
 import com.andrew121410.mc.world16firealarms.FireAlarmSound;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Lightable;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -19,47 +18,38 @@ public class SimpleStrobe implements ConfigurationSerializable {
     private Location location;
     private FireAlarmSound fireAlarmSound;
 
-    private boolean isLight;
-
     public SimpleStrobe(Location block, String name) {
         this.location = block;
         this.name = name;
-
         this.fireAlarmSound = new FireAlarmSound();
-
-        BlockData data = this.location.getBlock().getBlockData();
-        if (data instanceof Lightable) isLight = true;
-    }
-
-    public SimpleStrobe(Block block, String name) {
-        this(block.getLocation(), name);
     }
 
     public void on() {
-        if (isLight) {
-            sound();
-            BlockData data = this.location.getBlock().getBlockData();
-            if (data instanceof Lightable) {
-                ((Lightable) data).setLit(true);
-                this.location.getBlock().setBlockData(data);
-                isLight = true;
-            } else isLight = false;
-            return;
+        sound();
+        if (!isLight(true)) {
+            this.location.getBlock().setType(Material.REDSTONE_BLOCK);
         }
-        this.location.getBlock().setType(Material.REDSTONE_BLOCK);
     }
 
     public void off() {
-        if (isLight) {
-            this.location.getBlock().setType(Material.REDSTONE_LAMP);
-            return;
+        if (!isLight(false)) {
+            this.location.getBlock().setType(Material.SOUL_SAND);
         }
-        this.location.getBlock().setType(Material.SOUL_SAND);
     }
 
     public void sound() {
         if (this.location.getWorld() != null)
             this.location.getWorld().playSound(location, fireAlarmSound.getSound(), fireAlarmSound.getVolume(), fireAlarmSound.getPitch());
+    }
+
+    public boolean isLight(boolean litValue) {
+        BlockData data = this.location.getBlock().getBlockData();
+        if (data instanceof Lightable) {
+            ((Lightable) data).setLit(litValue);
+            this.location.getBlock().setBlockData(data);
+            return true;
+        }
+        return false;
     }
 
     public Location getLocation() {
