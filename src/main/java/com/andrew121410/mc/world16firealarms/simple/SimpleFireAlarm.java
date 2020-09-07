@@ -42,12 +42,9 @@ public class SimpleFireAlarm implements ConfigurationSerializable {
         this.fireAlarmStatus = FireAlarmStatus.READY;
     }
 
-    public void registerStrobe(SimpleStrobe iStrobe) {
-        this.strobesMap.putIfAbsent(iStrobe.getName(), iStrobe);
-        this.strobesMap.get(iStrobe.getName()).setFireAlarmSound(fireAlarmSettings.getFireAlarmSound());
-    }
-
-    public void registerNac() {
+    public void registerStrobe(SimpleStrobe simpleStrobe) {
+        simpleStrobe.setFireAlarmSound(fireAlarmSettings.getFireAlarmSound());
+        this.strobesMap.putIfAbsent(simpleStrobe.getName(), simpleStrobe);
     }
 
     public void registerSign(String string, FireAlarmScreen fireAlarmScreen) {
@@ -83,11 +80,15 @@ public class SimpleFireAlarm implements ConfigurationSerializable {
     public void alarm(FireAlarmReason fireAlarmReason) {
         this.fireAlarmStatus = FireAlarmStatus.ALARM;
 
-        if (fireAlarmSettings.getCommandTrigger() != null)
+        if (fireAlarmSettings.getCommandTrigger() != null) {
             this.plugin.getServer().dispatchCommand(this.plugin.getServer().getConsoleSender(), this.fireAlarmSettings.getCommandTrigger());
+        }
 
-        if (fireAlarmSettings.getFireAlarmTempo() == FireAlarmTempo.CODE_3) setupCode3();
-        else if (fireAlarmSettings.getFireAlarmTempo() == FireAlarmTempo.MARCH_TIME) setupMarchTime();
+        if (fireAlarmSettings.getFireAlarmTempo() == FireAlarmTempo.CODE_3) {
+            setupCode3();
+        } else if (fireAlarmSettings.getFireAlarmTempo() == FireAlarmTempo.MARCH_TIME) {
+            setupMarchTime();
+        }
 
         //Signs
         Iterator<Map.Entry<String, FireAlarmScreen>> iterator = this.signsMap.entrySet().iterator();
