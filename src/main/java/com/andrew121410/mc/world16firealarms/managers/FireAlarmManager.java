@@ -18,11 +18,13 @@ public class FireAlarmManager {
 
     private Map<String, SimpleFireAlarm> fireAlarmMap;
     private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private Map<Location, String> chunksToFireAlarmNameMap;
 
     public FireAlarmManager(World16FireAlarms plugin) {
         this.plugin = plugin;
         this.fireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
         this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
+        this.chunksToFireAlarmNameMap = this.plugin.getSetListMap().getChunkToFireAlarmName();
 
         //firealarms.yml
         this.fireAlarmsYml = new CustomYmlManager(this.plugin, false);
@@ -60,7 +62,6 @@ public class FireAlarmManager {
     }
 
     public void saveAllFireAlarms() {
-        ConfigurationSection cs = getFireAlarmsConfigurationSection();
         for (SimpleFireAlarm value : this.fireAlarmMap.values()) save(value);
     }
 
@@ -86,8 +87,15 @@ public class FireAlarmManager {
         ConfigurationSection cs = getFireAlarmsConfigurationSection();
         SimpleFireAlarm simpleFireAlarm = this.fireAlarmMap.get(fireAlarm);
         if (simpleFireAlarm == null) return;
+        for (FireAlarmScreen value : simpleFireAlarm.getSignsMap().values()) {
+            this.fireAlarmScreenMap.remove(value.getLocation());
+        }
+        if (simpleFireAlarm.getMainChunk() != null) {
+            this.chunksToFireAlarmNameMap.remove(simpleFireAlarm.getMainChunk());
+        }
         cs.set(simpleFireAlarm.getName(), null);
         this.fireAlarmsYml.saveConfig();
+        this.fireAlarmMap.remove(simpleFireAlarm.getName());
     }
 
     public void deleteFireAlarmSign(String fireAlarm, String signName) {
