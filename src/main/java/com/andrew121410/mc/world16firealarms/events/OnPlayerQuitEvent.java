@@ -19,7 +19,6 @@ public class OnPlayerQuitEvent implements Listener {
     public OnPlayerQuitEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
-
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 

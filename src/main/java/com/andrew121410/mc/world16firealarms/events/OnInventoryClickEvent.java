@@ -12,24 +12,19 @@ import java.util.UUID;
 
 public class OnInventoryClickEvent implements Listener {
 
-    private World16FireAlarms plugin;
-
-    //Maps
     private Map<UUID, ScreenFocus> screenFocusMap;
-    //...
+
+    private World16FireAlarms plugin;
 
     public OnInventoryClickEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
-
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
-
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
 
     @EventHandler
     public void OnInvClickEvent(InventoryClickEvent event) {
-        Player p = (Player) event.getWhoClicked();
-
-        if (this.screenFocusMap.get(p.getUniqueId()) != null) event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        if (this.screenFocusMap.containsKey(player.getUniqueId())) event.setCancelled(true);
     }
 }

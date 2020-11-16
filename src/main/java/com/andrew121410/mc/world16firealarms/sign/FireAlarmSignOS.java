@@ -2,9 +2,8 @@ package com.andrew121410.mc.world16firealarms.sign;
 
 import com.andrew121410.mc.world16firealarms.FireAlarmReason;
 import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
-import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.TroubleReason;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
+import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16utils.blocks.sign.screen.ISignScreen;
 import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
@@ -27,7 +26,7 @@ public class FireAlarmSignOS implements ISignScreen {
 
     private FireAlarmSignOSMenu currentMenu;
 
-    private Map<String, IFireAlarm> fireAlarmMap;
+    private Map<String, SimpleFireAlarm> fireAlarmMap;
 
     public FireAlarmSignOS(World16FireAlarms plugin, String name, String fireAlarmName) {
         this.plugin = plugin;
@@ -66,7 +65,7 @@ public class FireAlarmSignOS implements ISignScreen {
             }
         } else if (this.currentMenu == FireAlarmSignOSMenu.SETTINGS_TEST_FIREALARM) {
             if (pointerLine == 1 && currentSide == 1) {
-                simpleFireAlarm.alarm(new FireAlarmReason(TroubleReason.PANEL_TEST));
+                simpleFireAlarm.alarm(new FireAlarmReason(TroubleReason.PANEL_TEST, null));
                 player.sendMessage(LanguageLocale.color("Alarm should be going off currently."));
                 return true;
             } else if (pointerLine == 2 && currentSide == 1) {
@@ -151,20 +150,20 @@ public class FireAlarmSignOS implements ISignScreen {
         Utils utils = new Utils();
         SignLayout signLayout = new SignLayout("InfoMain", "SettingsMain");
         SignPage signPage = new SignPage("Info", null, 0, 0, 3, null);
-        IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+        SimpleFireAlarm simpleFireAlarm = this.fireAlarmMap.get(fireAlarmName);
         signPage.setLine(0, "^&6Info");
         signPage.setLine(1, this.fireAlarmName);
         signPage.setLine(2, "Ver: " + this.version);
-        signPage.setLine(3, "P>NOS" + iFireAlarm.getStrobesMap().size());
+        signPage.setLine(3, "P>NOS" + simpleFireAlarm.getStrobesMap().size());
 
         SignPage signPage2 = new SignPage("Info2", "Info", 0, 0, 3, null);
         signPage2.setLine(0, "Sound: {BELOW}");
-        signPage2.setLine(1, utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5));
-        signPage2.setLine(2, "Volume: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume());
-        signPage2.setLine(3, "P>Pitch: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch());
+        signPage2.setLine(1, utils.getLastStrings(simpleFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5));
+        signPage2.setLine(2, "Volume: " + simpleFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume());
+        signPage2.setLine(3, "P>Pitch: " + simpleFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch());
 
         SignPage signPage3 = new SignPage("Info3", "Info2", 0, 0, 3, null);
-        signPage3.setLine(0, "Tempo: " + iFireAlarm.getFireAlarmSettings().getFireAlarmTempo().name());
+        signPage3.setLine(0, "Tempo: " + simpleFireAlarm.getFireAlarmSettings().getFireAlarmTempo().name());
 
         signLayout.addSignPage(signPage);
         signLayout.addSignPage(signPage2);
@@ -186,7 +185,9 @@ public class FireAlarmSignOS implements ISignScreen {
             signPage.setLine(1, fireAlarmReason.getTroubleReason().toString());
             signPage.setLine(2, "-Reset");
 
-            fireAlarmReason.getOptionalPullStationName().ifPresent(ok -> signPage.setLine(3, ok));
+            if (fireAlarmReason.getReason() != null) {
+                signPage.setLine(3, fireAlarmReason.getReason());
+            }
         }
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);

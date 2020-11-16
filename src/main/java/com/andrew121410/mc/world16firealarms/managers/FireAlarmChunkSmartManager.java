@@ -1,7 +1,8 @@
 package com.andrew121410.mc.world16firealarms.managers;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
+import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.Map;
 public class FireAlarmChunkSmartManager implements Runnable {
 
     private Map<Location, String> chunkToFireAlarmName;
-    private Map<String, IFireAlarm> iFireAlarmMap;
+    private Map<String, SimpleFireAlarm> iFireAlarmMap;
 
     private World16FireAlarms plugin;
 
@@ -30,9 +31,11 @@ public class FireAlarmChunkSmartManager implements Runnable {
             boolean isChunkLoaded = location.getWorld().isChunkLoaded(location.getBlockX(), location.getBlockZ());
             if (isChunkLoaded && !this.iFireAlarmMap.containsKey(fireAlarmName)) {
                 this.plugin.getFireAlarmManager().loadUpFireAlarm(fireAlarmName);
+                Bukkit.getServer().broadcastMessage("Loaded: " + fireAlarmName);
             } else if (!isChunkLoaded && this.iFireAlarmMap.containsKey(fireAlarmName)) {
-                IFireAlarm iFireAlarm = this.iFireAlarmMap.get(fireAlarmName);
-                this.plugin.getFireAlarmManager().saveAndUnloadFireAlarm(iFireAlarm);
+                SimpleFireAlarm simpleFireAlarm = this.iFireAlarmMap.get(fireAlarmName);
+                this.plugin.getFireAlarmManager().saveAndUnloadFireAlarm(simpleFireAlarm);
+                Bukkit.getServer().broadcastMessage("Unloaded: " + fireAlarmName);
             }
         }
     }

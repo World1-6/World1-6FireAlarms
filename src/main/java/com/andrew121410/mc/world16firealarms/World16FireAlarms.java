@@ -20,8 +20,8 @@ public final class World16FireAlarms extends JavaPlugin {
     static {
         ConfigurationSerialization.registerClass(FireAlarmSound.class, "FireAlarmSound");
         ConfigurationSerialization.registerClass(FireAlarmSettings.class, "FireAlarmSettings");
-        ConfigurationSerialization.registerClass(SimpleStrobe.class, "IStrobe");
-        ConfigurationSerialization.registerClass(SimpleFireAlarm.class, "IFireAlarm");
+        ConfigurationSerialization.registerClass(SimpleStrobe.class, "SimpleStrobe");
+        ConfigurationSerialization.registerClass(SimpleFireAlarm.class, "SimpleFireAlarm");
         ConfigurationSerialization.registerClass(FireAlarmScreen.class, "FireAlarmScreen");
     }
 
