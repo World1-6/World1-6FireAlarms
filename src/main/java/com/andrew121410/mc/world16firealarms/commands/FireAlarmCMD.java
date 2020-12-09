@@ -205,7 +205,7 @@ public class FireAlarmCMD implements CommandExecutor {
                 player.sendMessage(Translate.chat("/firealarm unload <Save?True/False>"));
                 return true;
             }
-            boolean bool = api.asBooleanOrDefault(args[1], true);
+            boolean bool = Utils.asBooleanOrElse(args[1], true);
 
             if (bool) {
                 this.plugin.getFireAlarmManager().saveAllFireAlarms();
@@ -267,8 +267,8 @@ public class FireAlarmCMD implements CommandExecutor {
                 String pitch = args[4];
 
                 Sound realSound = Sound.valueOf(sound);
-                float realVolume = api.asFloatOrDefault(volume, 99.1F);
-                float realPitch = api.asFloatOrDefault(pitch, 99.1F);
+                float realVolume = Utils.asFloatOrElse(volume, 99.1F);
+                float realPitch = Utils.asFloatOrElse(pitch, 99.1F);
 
                 if (realVolume == 99.1F) {
                     return true;

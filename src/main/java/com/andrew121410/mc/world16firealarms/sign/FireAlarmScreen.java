@@ -1,7 +1,7 @@
 package com.andrew121410.mc.world16firealarms.sign;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;

@@ -5,11 +5,11 @@ import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
 import com.andrew121410.mc.world16firealarms.TroubleReason;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.ISignScreen;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.pages.SignLayout;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.pages.SignPage;
 import com.andrew121410.mc.world16utils.chat.LanguageLocale;
+import com.andrew121410.mc.world16utils.sign.screen.ISignScreen;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.sign.screen.pages.SignLayout;
+import com.andrew121410.mc.world16utils.sign.screen.pages.SignPage;
 import com.andrew121410.mc.world16utils.utils.Utils;
 import org.bukkit.entity.Player;
 
