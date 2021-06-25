@@ -4,7 +4,7 @@ import com.andrew121410.mc.world16firealarms.*;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
-import com.andrew121410.mc.world16firealarms.tabcomplete.FireAlarmTab;
+import com.andrew121410.mc.world16firealarms.commands.tabcomplete.FireAlarmTab;
 import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.player.PlayerUtils;
 import com.andrew121410.mc.world16utils.utils.Utils;

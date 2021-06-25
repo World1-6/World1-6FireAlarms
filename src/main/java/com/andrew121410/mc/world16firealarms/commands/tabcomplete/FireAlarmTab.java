@@ -1,4 +1,4 @@
-package com.andrew121410.mc.world16firealarms.tabcomplete;
+package com.andrew121410.mc.world16firealarms.commands.tabcomplete;
 
 import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;

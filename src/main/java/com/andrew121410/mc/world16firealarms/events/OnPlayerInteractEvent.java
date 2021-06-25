@@ -3,7 +3,7 @@ package com.andrew121410.mc.world16firealarms.events;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
-import com.andrew121410.mc.world16utils.sign.SignUtils;
+import com.andrew121410.mc.world16utils.blocks.BlockUtils;
 import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -24,14 +24,14 @@ public class OnPlayerInteractEvent implements Listener {
     private Map<UUID, ScreenFocus> screenFocusMap;
 
     private World16FireAlarms plugin;
-    private SignUtils signUtils;
+    private BlockUtils blockUtils;
 
     public OnPlayerInteractEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
         this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
-        this.signUtils = this.plugin.getOtherPlugins().getWorld16Utils().getClassWrappers().getSignUtils();
+        this.blockUtils = this.plugin.getOtherPlugins().getWorld16Utils().getClassWrappers().getBlockUtils();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
@@ -49,7 +49,7 @@ public class OnPlayerInteractEvent implements Listener {
             ScreenFocus screenFocus = this.screenFocusMap.get(player.getUniqueId());
             boolean isSign = false;
 
-            if (signUtils.isSign(block) != null) isSign = true;
+            if (blockUtils.isSign(block) != null) isSign = true;
 
             if (!isSign && screenFocus != null) {
                 event.setCancelled(true);
