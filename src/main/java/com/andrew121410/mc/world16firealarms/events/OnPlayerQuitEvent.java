@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public class OnPlayerQuitEvent implements Listener {
 
-    private Map<UUID, ScreenFocus> screenFocusMap;
+    private final Map<UUID, ScreenFocus> screenFocusMap;
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
     public OnPlayerQuitEvent(World16FireAlarms plugin) {
         this.plugin = plugin;

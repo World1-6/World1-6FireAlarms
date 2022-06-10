@@ -26,12 +26,12 @@ import java.util.Optional;
 
 public class FireAlarmCMD implements CommandExecutor {
 
-    private World16FireAlarms plugin;
-    private Utils api;
+    private final World16FireAlarms plugin;
+    private final Utils api;
 
     //Maps
-    private Map<String, IFireAlarm> fireAlarmMap;
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private final Map<String, IFireAlarm> fireAlarmMap;
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
     //...
 
     public FireAlarmCMD(World16FireAlarms plugin) {
@@ -211,7 +211,7 @@ public class FireAlarmCMD implements CommandExecutor {
                 p.sendMessage(Translate.chat("/firealarm unload <Save?True/False>"));
                 return true;
             }
-            boolean bool = api.asBooleanOrDefault(args[1], true);
+            boolean bool = Utils.asBooleanOrElse(args[1], true);
 
             if (bool) {
                 this.plugin.getFireAlarmManager().saveAllFireAlarms();
@@ -274,8 +274,8 @@ public class FireAlarmCMD implements CommandExecutor {
                 String pitch = args[4];
 
                 Sound realSound = Sound.valueOf(sound);
-                float realVolume = api.asFloatOrDefault(volume, 99.1F);
-                float realPitch = api.asFloatOrDefault(pitch, 99.1F);
+                float realVolume = Utils.asFloatOrElse(volume, 99.1F);
+                float realPitch = Utils.asFloatOrElse(pitch, 99.1F);
 
                 if (realVolume == 99.1F) {
                     return true;
@@ -311,7 +311,7 @@ public class FireAlarmCMD implements CommandExecutor {
                 }
 
                 this.fireAlarmMap.get(fireAlarmName).getFireAlarmSettings().setFireAlarmTempo(fireAlarmTempo);
-                p.sendMessage(Translate.chat("Fire Alarm: " + fireAlarmName + " tempo has changed to " + fireAlarmTempo.toString()));
+                p.sendMessage(Translate.chat("Fire Alarm: " + fireAlarmName + " tempo has changed to " + fireAlarmTempo));
                 return true;
             }
             return true;

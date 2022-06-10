@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class FireAlarmChunkSmartManager implements Runnable {
 
-    private Map<Location, String> chunkToFireAlarmName;
-    private Map<String, IFireAlarm> iFireAlarmMap;
+    private final Map<Location, String> chunkToFireAlarmName;
+    private final Map<String, IFireAlarm> iFireAlarmMap;
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
     public FireAlarmChunkSmartManager(World16FireAlarms plugin) {
         this.plugin = plugin;

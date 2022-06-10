@@ -23,6 +23,12 @@ public class FireAlarmSound implements ConfigurationSerializable {
         this.pitch = pitch;
     }
 
+    public static FireAlarmSound deserialize(Map<String, Object> map) {
+        double fakeVolume = (double) map.get("Volume");
+        double fakePitch = (double) map.get("Pitch");
+        return new FireAlarmSound(Sound.valueOf((String) map.get("Sound")), (float) fakeVolume, (float) fakePitch);
+    }
+
     public Sound getSound() {
         return sound;
     }
@@ -54,11 +60,5 @@ public class FireAlarmSound implements ConfigurationSerializable {
         map.put("Volume", this.volume);
         map.put("Pitch", this.pitch);
         return map;
-    }
-
-    public static FireAlarmSound deserialize(Map<String, Object> map) {
-        double fakeVolume = (double) map.get("Volume");
-        double fakePitch = (double) map.get("Pitch");
-        return new FireAlarmSound(Sound.valueOf((String) map.get("Sound")), (float) fakeVolume, (float) fakePitch);
     }
 }

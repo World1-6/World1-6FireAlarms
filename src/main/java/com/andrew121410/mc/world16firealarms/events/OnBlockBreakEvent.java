@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class OnBlockBreakEvent implements Listener {
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
 
     public OnBlockBreakEvent(World16FireAlarms plugin) {
         this.plugin = plugin;

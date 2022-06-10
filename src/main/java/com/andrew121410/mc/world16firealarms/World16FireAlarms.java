@@ -17,6 +17,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class World16FireAlarms extends JavaPlugin {
 
+    private static World16FireAlarms instance;
+
     static {
         ConfigurationSerialization.registerClass(FireAlarmSound.class, "FireAlarmSound");
         ConfigurationSerialization.registerClass(FireAlarmSettings.class, "FireAlarmSettings");
@@ -25,7 +27,6 @@ public final class World16FireAlarms extends JavaPlugin {
         ConfigurationSerialization.registerClass(FireAlarmScreen.class, "FireAlarmScreen");
     }
 
-    private static World16FireAlarms instance;
     private SetListMap setListMap;
     private OtherPlugins otherPlugins;
 
@@ -33,6 +34,10 @@ public final class World16FireAlarms extends JavaPlugin {
 
     //Config
     private boolean chunkSmartManagement = false;
+
+    public static World16FireAlarms getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -76,10 +81,6 @@ public final class World16FireAlarms extends JavaPlugin {
         this.getConfig().options().copyDefaults(true);
         this.saveConfig();
         this.reloadConfig();
-    }
-
-    public static World16FireAlarms getInstance() {
-        return instance;
     }
 
     public SetListMap getSetListMap() {

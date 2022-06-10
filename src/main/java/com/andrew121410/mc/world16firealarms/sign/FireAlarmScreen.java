@@ -1,7 +1,7 @@
 package com.andrew121410.mc.world16firealarms.sign;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -12,13 +12,13 @@ import java.util.Map;
 @SerializableAs("FireAlarmScreen")
 public class FireAlarmScreen implements ConfigurationSerializable {
 
-    private String name;
-    private String fireAlarmName;
-    private Location location;
+    private final String name;
+    private final String fireAlarmName;
+    private final Location location;
 
-    private SignScreenManager signScreenManager;
+    private final SignScreenManager signScreenManager;
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
     public FireAlarmScreen(World16FireAlarms plugin, String name, String fireAlarmName, Location location) {
         this.plugin = plugin;
@@ -26,6 +26,10 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         this.fireAlarmName = fireAlarmName;
         this.location = location;
         this.signScreenManager = new SignScreenManager(this.plugin, name, location, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
+    }
+
+    public static FireAlarmScreen deserialize(Map<String, Object> map) {
+        return new FireAlarmScreen(World16FireAlarms.getInstance(), (String) map.get("Name"), (String) map.get("FireAlarmName"), (Location) map.get("Location"));
     }
 
     public String getName() {
@@ -55,9 +59,5 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         map.put("FireAlarmName", fireAlarmName);
         map.put("Location", location);
         return map;
-    }
-
-    public static FireAlarmScreen deserialize(Map<String, Object> map) {
-        return new FireAlarmScreen(World16FireAlarms.getInstance(), (String) map.get("Name"), (String) map.get("FireAlarmName"), (Location) map.get("Location"));
     }
 }

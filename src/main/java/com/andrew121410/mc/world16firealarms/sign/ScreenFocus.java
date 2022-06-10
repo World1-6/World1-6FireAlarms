@@ -12,12 +12,12 @@ import java.util.Collection;
 
 public class ScreenFocus {
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
-    private Player player;
+    private final Player player;
 
-    private ItemStack[] oldInv;
-    private Collection<PotionEffect> potionEffects;
+    private final ItemStack[] oldInv;
+    private final Collection<PotionEffect> potionEffects;
 
     public ScreenFocus(World16FireAlarms plugin, Player player) {
         this.plugin = plugin;

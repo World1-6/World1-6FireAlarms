@@ -15,8 +15,8 @@ import java.util.Map;
 @SerializableAs("IStrobe")
 public class SimpleStrobe implements IStrobe {
 
-    private String name;
-    private Location location;
+    private final String name;
+    private final Location location;
     private FireAlarmSound fireAlarmSound;
 
     private boolean isLight;
@@ -33,6 +33,10 @@ public class SimpleStrobe implements IStrobe {
 
     public SimpleStrobe(Block block, String name) {
         this(block.getLocation(), name);
+    }
+
+    public static SimpleStrobe deserialize(Map<String, Object> map) {
+        return new SimpleStrobe((Location) map.get("Location"), (String) map.get("Name"));
     }
 
     public void on() {
@@ -84,9 +88,5 @@ public class SimpleStrobe implements IStrobe {
         map.put("Location", this.location);
         map.put("Name", this.name);
         return map;
-    }
-
-    public static SimpleStrobe deserialize(Map<String, Object> map) {
-        return new SimpleStrobe((Location) map.get("Location"), (String) map.get("Name"));
     }
 }

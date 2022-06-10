@@ -21,6 +21,10 @@ public class FireAlarmSettings implements ConfigurationSerializable {
         this(new FireAlarmSound(), FireAlarmTempo.MARCH_TIME, null);
     }
 
+    public static FireAlarmSettings deserialize(Map<String, Object> map) {
+        return new FireAlarmSettings((FireAlarmSound) map.get("FireAlarmSound"), FireAlarmTempo.valueOf((String) map.get("FireAlarmTempo")), (String) map.get("CommandTrigger"));
+    }
+
     public FireAlarmSound getFireAlarmSound() {
         return fireAlarmSound;
     }
@@ -52,9 +56,5 @@ public class FireAlarmSettings implements ConfigurationSerializable {
         map.put("FireAlarmTempo", fireAlarmTempo.toString());
         map.put("CommandTrigger", this.commandTrigger);
         return map;
-    }
-
-    public static FireAlarmSettings deserialize(Map<String, Object> map) {
-        return new FireAlarmSettings((FireAlarmSound) map.get("FireAlarmSound"), FireAlarmTempo.valueOf((String) map.get("FireAlarmTempo")), (String) map.get("CommandTrigger"));
     }
 }

@@ -14,10 +14,10 @@ public class SetListMap {
     //0 is when the server shuts down.
     //1 is when the player quits.
 
-    private Map<String, IFireAlarm> fireAlarmMap; //0
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap; //0
-    private Map<Location, String> chunkToFireAlarmName; //0
-    private Map<UUID, ScreenFocus> screenFocusMap; //1
+    private final Map<String, IFireAlarm> fireAlarmMap; //0
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap; //0
+    private final Map<Location, String> chunkToFireAlarmName; //0
+    private final Map<UUID, ScreenFocus> screenFocusMap; //1
 
     public SetListMap() {
         this.fireAlarmMap = new HashMap<>();

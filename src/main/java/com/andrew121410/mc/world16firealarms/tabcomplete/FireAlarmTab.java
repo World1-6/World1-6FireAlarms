@@ -16,12 +16,12 @@ import java.util.Map;
 
 public class FireAlarmTab implements TabCompleter {
 
-    private List<String> tabCompleteMap;
-    private List<String> soundsList;
+    private final List<String> tabCompleteMap;
+    private final List<String> soundsList;
 
-    private Map<String, IFireAlarm> iFireAlarmMap;
+    private final Map<String, IFireAlarm> iFireAlarmMap;
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
     public FireAlarmTab(World16FireAlarms plugin) {
         this.plugin = plugin;
@@ -41,6 +41,18 @@ public class FireAlarmTab implements TabCompleter {
         for (Sound value : Sound.values()) {
             this.soundsList.add(value.name());
         }
+    }
+
+    public static List<String> getContainsString(String args, List<String> oldArrayList) {
+        List<String> list = new ArrayList<>();
+
+        for (String mat : oldArrayList) {
+            if (mat.contains(args.toLowerCase())) {
+                list.add(mat);
+            }
+        }
+
+        return list;
     }
 
     @Override
@@ -104,17 +116,5 @@ public class FireAlarmTab implements TabCompleter {
             return null;
         }
         return null;
-    }
-
-    public static List<String> getContainsString(String args, List<String> oldArrayList) {
-        List<String> list = new ArrayList<>();
-
-        for (String mat : oldArrayList) {
-            if (mat.contains(args.toLowerCase())) {
-                list.add(mat);
-            }
-        }
-
-        return list;
     }
 }

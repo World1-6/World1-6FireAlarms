@@ -5,5 +5,5 @@ public enum FireAlarmStatus {
     OFF,
     READY,
     ALARM,
-    TROUBLE;
+    TROUBLE
 }

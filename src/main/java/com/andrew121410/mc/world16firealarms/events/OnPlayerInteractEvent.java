@@ -3,8 +3,8 @@ package com.andrew121410.mc.world16firealarms.events;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
-import com.andrew121410.mc.world16utils.blocks.sign.SignUtils;
-import com.andrew121410.mc.world16utils.blocks.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.blocks.UniversalBlockUtils;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -20,18 +20,16 @@ import java.util.UUID;
 
 public class OnPlayerInteractEvent implements Listener {
 
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
-    private Map<UUID, ScreenFocus> screenFocusMap;
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private final Map<UUID, ScreenFocus> screenFocusMap;
 
-    private World16FireAlarms plugin;
-    private SignUtils signUtils;
+    private final World16FireAlarms plugin;
 
     public OnPlayerInteractEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
         this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
         this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
-        this.signUtils = this.plugin.getOtherPlugins().getWorld16Utils().getClassWrappers().getSignUtils();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }
@@ -47,9 +45,7 @@ public class OnPlayerInteractEvent implements Listener {
             ItemMeta itemMeta = itemStack.getItemMeta();
             FireAlarmScreen fireAlarmScreen = this.fireAlarmScreenMap.get(block.getLocation());
             ScreenFocus screenFocus = this.screenFocusMap.get(player.getUniqueId());
-            boolean isSign = false;
-
-            if (signUtils.isSign(block) != null) isSign = true;
+            boolean isSign = UniversalBlockUtils.isSign(block) != null;
 
             if (!isSign && screenFocus != null) {
                 event.setCancelled(true);

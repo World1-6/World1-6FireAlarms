@@ -12,10 +12,10 @@ import java.util.UUID;
 
 public class OnInventoryClickEvent implements Listener {
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
     //Maps
-    private Map<UUID, ScreenFocus> screenFocusMap;
+    private final Map<UUID, ScreenFocus> screenFocusMap;
     //...
 
     public OnInventoryClickEvent(World16FireAlarms plugin) {

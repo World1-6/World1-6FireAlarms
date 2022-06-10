@@ -12,12 +12,12 @@ import java.util.Map;
 
 public class FireAlarmManager {
 
-    private World16FireAlarms plugin;
+    private final World16FireAlarms plugin;
 
-    private CustomYmlManager fireAlarmsYml;
+    private final CustomYmlManager fireAlarmsYml;
 
-    private Map<String, IFireAlarm> fireAlarmMap;
-    private Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private final Map<String, IFireAlarm> fireAlarmMap;
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
 
     public FireAlarmManager(World16FireAlarms plugin) {
         this.plugin = plugin;
