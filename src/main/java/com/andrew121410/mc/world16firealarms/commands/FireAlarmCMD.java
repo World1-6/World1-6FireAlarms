@@ -1,8 +1,6 @@
 package com.andrew121410.mc.world16firealarms.commands;
 
 import com.andrew121410.mc.world16firealarms.*;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
-import com.andrew121410.mc.world16firealarms.interfaces.IStrobe;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
@@ -22,7 +20,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 
 public class FireAlarmCMD implements CommandExecutor {
 
@@ -30,7 +27,7 @@ public class FireAlarmCMD implements CommandExecutor {
     private final Utils api;
 
     //Maps
-    private final Map<String, IFireAlarm> fireAlarmMap;
+    private final Map<String, SimpleFireAlarm> fireAlarmMap;
     private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
     //...
 
@@ -65,8 +62,7 @@ public class FireAlarmCMD implements CommandExecutor {
                     return true;
                 }
 
-                FireAlarmReason fireAlarmReason = new FireAlarmReason(TroubleReason.PULL_STATION);
-                fireAlarmReason.setOptionalPullStationName(Optional.of(pullstationname));
+                FireAlarmReason fireAlarmReason = new FireAlarmReason(TroubleReason.PULL_STATION, pullstationname);
                 this.fireAlarmMap.get(name).alarm(fireAlarmReason);
                 return true;
             }
@@ -94,8 +90,8 @@ public class FireAlarmCMD implements CommandExecutor {
             } else if (args.length == 3 && args[1].equalsIgnoreCase("firealarm")) {
                 String name = args[2].toLowerCase();
                 Chunk chunk = p.getLocation().getChunk();
-                IFireAlarm iFireAlarm = new SimpleFireAlarm(plugin, name, new Location(chunk.getWorld(), chunk.getX(), 0, chunk.getZ()));
-                this.fireAlarmMap.putIfAbsent(name, iFireAlarm);
+                SimpleFireAlarm simpleFireAlarm = new SimpleFireAlarm(plugin, name, new Location(chunk.getWorld(), chunk.getX(), 0, chunk.getZ()));
+                this.fireAlarmMap.putIfAbsent(name, simpleFireAlarm);
                 p.sendMessage(Translate.chat("Fire Alarm: " + name + " is now registered."));
                 return true;
             } else if (args.length == 4 && args[1].equalsIgnoreCase("sign")) {
@@ -149,7 +145,7 @@ public class FireAlarmCMD implements CommandExecutor {
                 String fireAlarmName = args[2].toLowerCase();
                 String strobeName = args[3].toLowerCase();
 
-                IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+                SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
                 if (iFireAlarm == null) {
                     p.sendMessage(Translate.chat("There's no such fire alarm called: " + fireAlarmName));
                     return true;
@@ -168,17 +164,17 @@ public class FireAlarmCMD implements CommandExecutor {
                 String fireAlarmName = args[2].toLowerCase();
                 Location location = PlayerUtils.getBlockPlayerIsLookingAt(p).getLocation();
 
-                IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+                SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
                 if (iFireAlarm == null) {
                     p.sendMessage(Translate.chat("There's no such fire alarm called: " + fireAlarmName));
                     return true;
                 }
 
-                IStrobe iStrobe = null;
+                SimpleStrobe iStrobe = null;
 
-                for (Map.Entry<String, IStrobe> entry : this.fireAlarmMap.get(fireAlarmName).getStrobesMap().entrySet()) {
+                for (Map.Entry<String, SimpleStrobe> entry : this.fireAlarmMap.get(fireAlarmName).getStrobesMap().entrySet()) {
                     String k = entry.getKey();
-                    IStrobe v = entry.getValue();
+                    SimpleStrobe v = entry.getValue();
                     int x = v.getLocation().getBlockX();
                     int y = v.getLocation().getBlockY();
                     int z = v.getLocation().getBlockZ();
@@ -234,7 +230,7 @@ public class FireAlarmCMD implements CommandExecutor {
                     return true;
                 }
 
-                this.fireAlarmMap.get(name).alarm(new FireAlarmReason(TroubleReason.PANEL_TEST));
+                this.fireAlarmMap.get(name).alarm(new FireAlarmReason(TroubleReason.PANEL_TEST, "Panel Test"));
                 p.sendMessage(Translate.chat("Alright, the fire alarm should be going off currently."));
                 return true;
             } else if (args.length == 4) {
@@ -246,8 +242,7 @@ public class FireAlarmCMD implements CommandExecutor {
                     return true;
                 }
 
-                FireAlarmReason fireAlarmReason = new FireAlarmReason(TroubleReason.PULL_STATION);
-                fireAlarmReason.setOptionalPullStationName(Optional.of(pullstationname));
+                FireAlarmReason fireAlarmReason = new FireAlarmReason(TroubleReason.PULL_STATION, pullstationname);
                 this.fireAlarmMap.get(name).alarm(fireAlarmReason);
                 p.sendMessage(Translate.chat("Alright, the fire alarm should be going off currently."));
                 return true;

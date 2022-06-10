@@ -1,8 +1,8 @@
 package com.andrew121410.mc.world16firealarms.utils;
 
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
+import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import org.bukkit.Location;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ public class SetListMap {
     //0 is when the server shuts down.
     //1 is when the player quits.
 
-    private final Map<String, IFireAlarm> fireAlarmMap; //0
+    private final Map<String, SimpleFireAlarm> fireAlarmMap; //0
     private final Map<Location, FireAlarmScreen> fireAlarmScreenMap; //0
     private final Map<Location, String> chunkToFireAlarmName; //0
     private final Map<UUID, ScreenFocus> screenFocusMap; //1
@@ -26,7 +26,7 @@ public class SetListMap {
         this.screenFocusMap = new HashMap<>();
     }
 
-    public Map<String, IFireAlarm> getFireAlarmMap() {
+    public Map<String, SimpleFireAlarm> getFireAlarmMap() {
         return fireAlarmMap;
     }
 

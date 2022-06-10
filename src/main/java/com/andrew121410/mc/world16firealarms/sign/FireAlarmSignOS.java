@@ -4,7 +4,6 @@ import com.andrew121410.mc.world16firealarms.FireAlarmReason;
 import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
 import com.andrew121410.mc.world16firealarms.TroubleReason;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16firealarms.interfaces.IFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16utils.chat.LanguageLocale;
 import com.andrew121410.mc.world16utils.sign.screen.ISignScreen;
@@ -24,10 +23,8 @@ public class FireAlarmSignOS implements ISignScreen {
 
     private final String name;
     private final String fireAlarmName;
-
+    private final Map<String, SimpleFireAlarm> fireAlarmMap;
     private FireAlarmSignOSMenu currentMenu;
-
-    private final Map<String, IFireAlarm> fireAlarmMap;
 
     public FireAlarmSignOS(World16FireAlarms plugin, String name, String fireAlarmName) {
         this.plugin = plugin;
@@ -46,7 +43,7 @@ public class FireAlarmSignOS implements ISignScreen {
 
     @Override
     public boolean onButton(SignScreenManager signScreenManager, Player player, SignLayout signLayout, SignPage signPage, int pointerLine, int currentSide) {
-        SimpleFireAlarm simpleFireAlarm = (SimpleFireAlarm) this.fireAlarmMap.get(this.fireAlarmName);
+        SimpleFireAlarm simpleFireAlarm = this.fireAlarmMap.get(this.fireAlarmName);
 
         if (this.currentMenu == FireAlarmSignOSMenu.MAIN_MENU) {
             if (pointerLine == 1 && currentSide == 1) {
@@ -66,7 +63,7 @@ public class FireAlarmSignOS implements ISignScreen {
             }
         } else if (this.currentMenu == FireAlarmSignOSMenu.SETTINGS_TEST_FIREALARM) {
             if (pointerLine == 1 && currentSide == 1) {
-                simpleFireAlarm.alarm(new FireAlarmReason(TroubleReason.PANEL_TEST));
+                simpleFireAlarm.alarm(new FireAlarmReason(TroubleReason.PANEL_TEST, "Panel Test"));
                 player.sendMessage(LanguageLocale.color("Alarm should be going off currently."));
                 return true;
             } else if (pointerLine == 2 && currentSide == 1) {
@@ -151,7 +148,7 @@ public class FireAlarmSignOS implements ISignScreen {
         Utils utils = new Utils();
         SignLayout signLayout = new SignLayout("InfoMain", "SettingsMain");
         SignPage signPage = new SignPage("Info", null, 0, 0, 3, null);
-        IFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
+        SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
         signPage.setLine(0, "^&6Info");
         signPage.setLine(1, this.fireAlarmName);
         signPage.setLine(2, "Ver: " + this.version);
@@ -185,8 +182,7 @@ public class FireAlarmSignOS implements ISignScreen {
         } else if (fireAlarmReason.getTroubleReason() == TroubleReason.PULL_STATION) {
             signPage.setLine(1, fireAlarmReason.getTroubleReason().toString());
             signPage.setLine(2, "-Reset");
-
-            fireAlarmReason.getOptionalPullStationName().ifPresent(ok -> signPage.setLine(3, ok));
+            signPage.setLine(3, fireAlarmReason.getReason());
         }
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);

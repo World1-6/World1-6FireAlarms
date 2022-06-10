@@ -2,8 +2,8 @@ package com.andrew121410.mc.world16firealarms;
 
 public class FireAlarmReason {
 
-    private TroubleReason troubleReason;
-    private String reason;
+    private final TroubleReason troubleReason;
+    private final String reason;
 
     public FireAlarmReason(TroubleReason troubleReason, String reason) {
         this.troubleReason = troubleReason;
