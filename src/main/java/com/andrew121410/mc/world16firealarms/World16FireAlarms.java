@@ -12,6 +12,7 @@ import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
 import com.andrew121410.mc.world16firealarms.utils.OtherPlugins;
 import com.andrew121410.mc.world16firealarms.utils.SetListMap;
+import com.andrew121410.mc.world16utils.updater.UpdateManager;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -59,6 +60,8 @@ public final class World16FireAlarms extends JavaPlugin {
 
         regEvents();
         regCommands();
+
+        UpdateManager.registerUpdater(this, new com.andrew121410.mc.world16firealarms.Updater(this));
     }
 
     @Override
