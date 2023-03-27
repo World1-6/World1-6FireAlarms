@@ -5,7 +5,7 @@ import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
 import com.andrew121410.mc.world16firealarms.TroubleReason;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
-import com.andrew121410.mc.world16utils.chat.LanguageLocale;
+import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.sign.screen.ISignScreen;
 import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import com.andrew121410.mc.world16utils.sign.screen.pages.SignLayout;
@@ -64,31 +64,31 @@ public class FireAlarmSignOS implements ISignScreen {
         } else if (this.currentMenu == FireAlarmSignOSMenu.SETTINGS_TEST_FIREALARM) {
             if (pointerLine == 1 && currentSide == 1) {
                 simpleFireAlarm.alarm(new FireAlarmReason(TroubleReason.PANEL_TEST, "Panel Test"));
-                player.sendMessage(LanguageLocale.color("Alarm should be going off currently."));
+                player.sendMessage(Translate.color("Alarm should be going off currently."));
                 return true;
             } else if (pointerLine == 2 && currentSide == 1) {
-                player.sendMessage(LanguageLocale.color("NOT IMPLEMENTED."));
+                player.sendMessage(Translate.color("NOT IMPLEMENTED."));
                 return true;
             } else if (pointerLine == 3 && currentSide == 1) {
                 simpleFireAlarm.reset();
-                player.sendMessage(LanguageLocale.color("Fire alarm has been reset."));
+                player.sendMessage(Translate.color("Fire alarm has been reset."));
                 return true;
             }
         } else if (this.currentMenu == FireAlarmSignOSMenu.SETTINGS_CHANGE_TEMPO) {
             if (pointerLine == 1 && currentSide == 1) {
                 simpleFireAlarm.getFireAlarmSettings().setFireAlarmTempo(FireAlarmTempo.MARCH_TIME);
-                player.sendMessage(LanguageLocale.color("Fire Alarm: " + this.fireAlarmName + " tempo has changed to " + FireAlarmTempo.MARCH_TIME.name()));
+                player.sendMessage(Translate.color("Fire Alarm: " + this.fireAlarmName + " tempo has changed to " + FireAlarmTempo.MARCH_TIME.name()));
                 return true;
             } else if (pointerLine == 2 && currentSide == 1) {
                 simpleFireAlarm.getFireAlarmSettings().setFireAlarmTempo(FireAlarmTempo.CODE_3);
-                player.sendMessage(LanguageLocale.color("Fire Alarm: " + this.fireAlarmName + " tempo has changed to " + FireAlarmTempo.CODE_3.name()));
+                player.sendMessage(Translate.color("Fire Alarm: " + this.fireAlarmName + " tempo has changed to " + FireAlarmTempo.CODE_3.name()));
                 return true;
             }
         } else if (this.currentMenu == FireAlarmSignOSMenu.ALARM_POPUP) {
             if (pointerLine == 2 && currentSide == 1) {
                 simpleFireAlarm.reset();
                 mainPage(signScreenManager);
-                player.sendMessage(LanguageLocale.color("The fire alarm has been reset."));
+                player.sendMessage(Translate.color("The fire alarm has been reset."));
                 return true;
             }
         }
@@ -100,8 +100,8 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.MAIN_MENU;
         SignLayout signLayout = new SignLayout("Main", null);
         SignPage mainPage = new SignPage("MainPage", null, 0, 0, 3, null);
-        mainPage.setLine(0, "&6Bexar Systems");
-        mainPage.setLine(1, "-Settings");
+        mainPage.setLine(0, Translate.colorc("&6Bexar Systems"));
+        mainPage.setLine(1, Translate.colorc("-Settings"));
 
         signLayout.addSignPage(mainPage);
 
@@ -112,10 +112,10 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_MENU;
         SignLayout signLayout = new SignLayout("SettingsMain", "Main");
         SignPage signPage = new SignPage("Settings", null, 0, 0, 3, null);
-        signPage.setLine(0, "^&6Settings Page");
-        signPage.setLine(1, "-Test fire alarm");
-        signPage.setLine(2, "-Change tempo");
-        signPage.setLine(3, "-Info");
+        signPage.setLine(0, Translate.colorc("^&6Settings Page"));
+        signPage.setLine(1, Translate.colorc("-Test fire alarm"));
+        signPage.setLine(2, Translate.colorc("-Change tempo"));
+        signPage.setLine(3, Translate.colorc("-Info"));
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);
     }
@@ -124,10 +124,10 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_TEST_FIREALARM;
         SignLayout signLayout = new SignLayout("TestFireAlarmMain", "SettingsMain");
         SignPage signPage = new SignPage("TestFireAlarm", null, 0, 0, 3, null);
-        signPage.setLine(0, "^&6TestFireAlarm");
-        signPage.setLine(1, "-Alarm");
-        signPage.setLine(2, "Trouble_NOT_IM");
-        signPage.setLine(3, "-Reset");
+        signPage.setLine(0, Translate.colorc("^&6TestFireAlarm"));
+        signPage.setLine(1, Translate.colorc("-Alarm"));
+        signPage.setLine(2, Translate.colorc("Trouble_NOT_IM"));
+        signPage.setLine(3, Translate.colorc("-Reset"));
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);
     }
@@ -136,9 +136,9 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.SETTINGS_CHANGE_TEMPO;
         SignLayout signLayout = new SignLayout("ChangeTempoMain", "SettingsMain");
         SignPage signPage = new SignPage("ChangeTempo", null, 0, 0, 3, null);
-        signPage.setLine(0, "^&6ChangeTempo");
-        signPage.setLine(1, "-MARCH_TIME");
-        signPage.setLine(2, "-CODE_3");
+        signPage.setLine(0, Translate.colorc("^&6ChangeTempo"));
+        signPage.setLine(1, Translate.colorc("-MARCH_TIME"));
+        signPage.setLine(2, Translate.colorc("-CODE_3"));
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);
     }
@@ -149,19 +149,19 @@ public class FireAlarmSignOS implements ISignScreen {
         SignLayout signLayout = new SignLayout("InfoMain", "SettingsMain");
         SignPage signPage = new SignPage("Info", null, 0, 0, 3, null);
         SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarmName);
-        signPage.setLine(0, "^&6Info");
-        signPage.setLine(1, this.fireAlarmName);
-        signPage.setLine(2, "Ver: " + this.version);
-        signPage.setLine(3, "P>NOS" + iFireAlarm.getStrobesMap().size());
+        signPage.setLine(0, Translate.colorc("^&6Info"));
+        signPage.setLine(1, Translate.colorc(this.fireAlarmName));
+        signPage.setLine(2, Translate.colorc("Ver: " + this.version));
+        signPage.setLine(3, Translate.colorc("P>NOS" + iFireAlarm.getStrobesMap().size()));
 
         SignPage signPage2 = new SignPage("Info2", "Info", 0, 0, 3, null);
-        signPage2.setLine(0, "Sound: {BELOW}");
-        signPage2.setLine(1, utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5));
-        signPage2.setLine(2, "Volume: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume());
-        signPage2.setLine(3, "P>Pitch: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch());
+        signPage2.setLine(0, Translate.colorc("Sound: {BELOW}"));
+        signPage2.setLine(1, Translate.colorc(utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5)));
+        signPage2.setLine(2, Translate.colorc("Volume: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume()));
+        signPage2.setLine(3, Translate.colorc("P>Pitch: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch()));
 
         SignPage signPage3 = new SignPage("Info3", "Info2", 0, 0, 3, null);
-        signPage3.setLine(0, "Tempo: " + iFireAlarm.getFireAlarmSettings().getFireAlarmTempo().name());
+        signPage3.setLine(0, Translate.colorc("Tempo: " + iFireAlarm.getFireAlarmSettings().getFireAlarmTempo().name()));
 
         signLayout.addSignPage(signPage);
         signLayout.addSignPage(signPage2);
@@ -174,15 +174,15 @@ public class FireAlarmSignOS implements ISignScreen {
         this.currentMenu = FireAlarmSignOSMenu.ALARM_POPUP;
         SignLayout signLayout = new SignLayout("POPUP", "Main");
         SignPage signPage = new SignPage("Popup", null, 0, 0, 3, null);
-        signPage.setLine(0, "^&c&lPopup ALERT");
+        signPage.setLine(0, Translate.colorc("^&c&lPopup ALERT"));
 
         if (fireAlarmReason.getTroubleReason() == TroubleReason.PANEL_TEST) {
-            signPage.setLine(1, fireAlarmReason.getTroubleReason().toString());
-            signPage.setLine(2, "-Reset");
+            signPage.setLine(1, Translate.colorc(fireAlarmReason.getTroubleReason().toString()));
+            signPage.setLine(2, Translate.colorc("-Reset"));
         } else if (fireAlarmReason.getTroubleReason() == TroubleReason.PULL_STATION) {
-            signPage.setLine(1, fireAlarmReason.getTroubleReason().toString());
-            signPage.setLine(2, "-Reset");
-            signPage.setLine(3, fireAlarmReason.getReason());
+            signPage.setLine(1, Translate.colorc(fireAlarmReason.getTroubleReason().toString()));
+            signPage.setLine(2, Translate.colorc("-Reset"));
+            signPage.setLine(3, Translate.colorc(fireAlarmReason.getReason()));
         }
         signLayout.addSignPage(signPage);
         signScreenManager.updateLayoutAndPage(signLayout, 0);
