@@ -21,8 +21,8 @@ public class FireAlarmManager {
 
     public FireAlarmManager(World16FireAlarms plugin) {
         this.plugin = plugin;
-        this.fireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
-        this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
+        this.fireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
+        this.fireAlarmScreenMap = this.plugin.getMemoryHolder().getFireAlarmScreenMap();
 
         //firealarms.yml
         this.fireAlarmsYml = new CustomYmlManager(this.plugin, false);
@@ -49,7 +49,7 @@ public class FireAlarmManager {
         for (String key : cs.getKeys(false)) {
             SimpleFireAlarm iFireAlarm = load(key);
             if (this.plugin.isChunkSmartManagement()) {
-                this.plugin.getSetListMap().getChunkToFireAlarmName().put(iFireAlarm.getMainChunk(), key);
+                this.plugin.getMemoryHolder().getChunkToFireAlarmName().put(iFireAlarm.getMainChunk(), key);
             } else {
                 this.fireAlarmMap.put(key, iFireAlarm);
                 for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {

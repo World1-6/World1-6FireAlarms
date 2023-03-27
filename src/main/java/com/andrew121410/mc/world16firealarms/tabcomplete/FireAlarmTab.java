@@ -28,7 +28,7 @@ public class FireAlarmTab implements TabCompleter {
 
         this.tabCompleteMap = new ArrayList<>();
         this.soundsList = new ArrayList<>();
-        this.iFireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
+        this.iFireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
 
         tabCompleteMap.add("register");
         tabCompleteMap.add("delete");

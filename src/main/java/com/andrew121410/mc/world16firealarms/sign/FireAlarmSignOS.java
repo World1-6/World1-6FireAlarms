@@ -29,7 +29,7 @@ public class FireAlarmSignOS implements ISignScreen {
     public FireAlarmSignOS(World16FireAlarms plugin, String name, String fireAlarmName) {
         this.plugin = plugin;
 
-        this.fireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
+        this.fireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
 
         this.name = name;
         this.fireAlarmName = fireAlarmName;

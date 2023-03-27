@@ -28,8 +28,8 @@ public class OnPlayerInteractEvent implements Listener {
     public OnPlayerInteractEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
-        this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
-        this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
+        this.fireAlarmScreenMap = this.plugin.getMemoryHolder().getFireAlarmScreenMap();
+        this.screenFocusMap = this.plugin.getMemoryHolder().getScreenFocusMap();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }

@@ -36,8 +36,8 @@ public class FireAlarmCMD implements CommandExecutor {
 
         this.api = new Utils();
 
-        this.fireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
-        this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
+        this.fireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
+        this.fireAlarmScreenMap = this.plugin.getMemoryHolder().getFireAlarmScreenMap();
 
         this.plugin.getCommand("firealarm").setExecutor(this);
         this.plugin.getCommand("firealarm").setTabCompleter(new FireAlarmTab(this.plugin));

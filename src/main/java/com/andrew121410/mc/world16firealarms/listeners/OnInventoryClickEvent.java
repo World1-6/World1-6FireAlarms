@@ -21,7 +21,7 @@ public class OnInventoryClickEvent implements Listener {
     public OnInventoryClickEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
-        this.screenFocusMap = this.plugin.getSetListMap().getScreenFocusMap();
+        this.screenFocusMap = this.plugin.getMemoryHolder().getScreenFocusMap();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }

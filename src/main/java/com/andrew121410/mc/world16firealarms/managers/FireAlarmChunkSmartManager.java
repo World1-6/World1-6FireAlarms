@@ -16,8 +16,8 @@ public class FireAlarmChunkSmartManager implements Runnable {
 
     public FireAlarmChunkSmartManager(World16FireAlarms plugin) {
         this.plugin = plugin;
-        this.chunkToFireAlarmName = this.plugin.getSetListMap().getChunkToFireAlarmName();
-        this.iFireAlarmMap = this.plugin.getSetListMap().getFireAlarmMap();
+        this.chunkToFireAlarmName = this.plugin.getMemoryHolder().getChunkToFireAlarmName();
+        this.iFireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
     }
 
     @Override

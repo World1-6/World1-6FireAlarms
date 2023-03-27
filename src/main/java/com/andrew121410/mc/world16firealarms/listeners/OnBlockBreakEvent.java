@@ -19,7 +19,7 @@ public class OnBlockBreakEvent implements Listener {
     public OnBlockBreakEvent(World16FireAlarms plugin) {
         this.plugin = plugin;
 
-        this.fireAlarmScreenMap = this.plugin.getSetListMap().getFireAlarmScreenMap();
+        this.fireAlarmScreenMap = this.plugin.getMemoryHolder().getFireAlarmScreenMap();
 
         this.plugin.getServer().getPluginManager().registerEvents(this, this.plugin);
     }

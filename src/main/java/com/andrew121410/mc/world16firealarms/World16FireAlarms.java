@@ -86,7 +86,7 @@ public final class World16FireAlarms extends JavaPlugin {
         this.reloadConfig();
     }
 
-    public MemoryHolder getSetListMap() {
+    public MemoryHolder getMemoryHolder() {
         return memoryHolder;
     }
 
