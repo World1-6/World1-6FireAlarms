@@ -1,17 +1,17 @@
 package com.andrew121410.mc.world16firealarms;
 
 import com.andrew121410.mc.world16firealarms.commands.FireAlarmCMD;
-import com.andrew121410.mc.world16firealarms.events.OnBlockBreakEvent;
-import com.andrew121410.mc.world16firealarms.events.OnInventoryClickEvent;
-import com.andrew121410.mc.world16firealarms.events.OnPlayerInteractEvent;
-import com.andrew121410.mc.world16firealarms.events.OnPlayerQuitEvent;
+import com.andrew121410.mc.world16firealarms.listeners.OnBlockBreakEvent;
+import com.andrew121410.mc.world16firealarms.listeners.OnInventoryClickEvent;
+import com.andrew121410.mc.world16firealarms.listeners.OnPlayerInteractEvent;
+import com.andrew121410.mc.world16firealarms.listeners.OnPlayerQuitEvent;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmChunkSmartManager;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmManager;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
 import com.andrew121410.mc.world16firealarms.utils.OtherPlugins;
-import com.andrew121410.mc.world16firealarms.utils.SetListMap;
+import com.andrew121410.mc.world16firealarms.utils.MemoryHolder;
 import com.andrew121410.mc.world16utils.updater.UpdateManager;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +28,7 @@ public final class World16FireAlarms extends JavaPlugin {
         ConfigurationSerialization.registerClass(FireAlarmScreen.class, "FireAlarmScreen");
     }
 
-    private SetListMap setListMap;
+    private MemoryHolder memoryHolder;
     private OtherPlugins otherPlugins;
 
     private FireAlarmManager fireAlarmManager;
@@ -43,7 +43,7 @@ public final class World16FireAlarms extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        this.setListMap = new SetListMap();
+        this.memoryHolder = new MemoryHolder();
         this.otherPlugins = new OtherPlugins(this);
 
         regDefaultConfig();
@@ -86,8 +86,8 @@ public final class World16FireAlarms extends JavaPlugin {
         this.reloadConfig();
     }
 
-    public SetListMap getSetListMap() {
-        return setListMap;
+    public MemoryHolder getSetListMap() {
+        return memoryHolder;
     }
 
     public FireAlarmManager getFireAlarmManager() {

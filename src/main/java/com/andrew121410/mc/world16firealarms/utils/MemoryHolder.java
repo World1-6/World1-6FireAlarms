@@ -9,17 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SetListMap {
+public class MemoryHolder {
 
-    //0 is when the server shuts down.
-    //1 is when the player quits.
+    private final Map<String, SimpleFireAlarm> fireAlarmMap;
+    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap;
+    private final Map<Location, String> chunkToFireAlarmName;
 
-    private final Map<String, SimpleFireAlarm> fireAlarmMap; //0
-    private final Map<Location, FireAlarmScreen> fireAlarmScreenMap; //0
-    private final Map<Location, String> chunkToFireAlarmName; //0
+    // Clear when player quits.
     private final Map<UUID, ScreenFocus> screenFocusMap; //1
 
-    public SetListMap() {
+    public MemoryHolder() {
         this.fireAlarmMap = new HashMap<>();
         this.fireAlarmScreenMap = new HashMap<>();
         this.chunkToFireAlarmName = new HashMap<>();

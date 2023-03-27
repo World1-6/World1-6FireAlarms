@@ -1,4 +1,4 @@
-package com.andrew121410.mc.world16firealarms.events;
+package com.andrew121410.mc.world16firealarms.listeners;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
