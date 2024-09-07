@@ -1,5 +1,5 @@
 plugins {
-    id("io.freefair.lombok") version "8.6" // https://plugins.gradle.org/plugin/io.freefair.lombok
+    id("io.freefair.lombok") version "8.10" // https://plugins.gradle.org/plugin/io.freefair.lombok
     `java-library`
     `maven-publish`
 }
@@ -7,7 +7,9 @@ plugins {
 group = "com.andrew121410.mc"
 version = "1.0-SNAPSHOT"
 description = "World1-6FireAlarms"
+
 java.sourceCompatibility = JavaVersion.VERSION_21
+java.targetCompatibility = JavaVersion.VERSION_21
 
 tasks {
     compileJava {
@@ -49,8 +51,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("com.github.World1-6.World1-6Utils:World1-6Utils-Plugin:634da50bcc")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("com.github.World1-6.World1-6Utils:World1-6Utils-Plugin:965d4bcdcb")
     compileOnly("org.geysermc.floodgate:api:2.2.3-SNAPSHOT")
 }
 
