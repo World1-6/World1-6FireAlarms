@@ -1,5 +1,7 @@
 package com.andrew121410.mc.world16firealarms;
 
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -26,7 +28,9 @@ public class FireAlarmSound implements ConfigurationSerializable {
     public static FireAlarmSound deserialize(Map<String, Object> map) {
         double fakeVolume = (double) map.get("Volume");
         double fakePitch = (double) map.get("Pitch");
-        return new FireAlarmSound(Sound.valueOf((String) map.get("Sound")), (float) fakeVolume, (float) fakePitch);
+        String soundString = (String) map.get("Sound");
+        Sound sound = Registry.SOUND_EVENT.get(NamespacedKey.fromString(soundString));
+        return new FireAlarmSound(sound, (float) fakeVolume, (float) fakePitch);
     }
 
     public Sound getSound() {

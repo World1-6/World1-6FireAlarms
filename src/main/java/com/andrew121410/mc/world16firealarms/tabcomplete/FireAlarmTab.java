@@ -3,6 +3,8 @@ package com.andrew121410.mc.world16firealarms.tabcomplete;
 import com.andrew121410.mc.world16firealarms.FireAlarmTempo;
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,8 +40,12 @@ public class FireAlarmTab implements TabCompleter {
         tabCompleteMap.add("tempo");
         tabCompleteMap.add("trigger");
 
-        for (Sound value : Sound.values()) {
-            this.soundsList.add(value.name());
+        // Use Registry.SOUND_EVENT instead of obsolete Registry.SOUNDS (since 1.21.4)
+        for (Sound sound : Registry.SOUND_EVENT) {
+            NamespacedKey key = Registry.SOUND_EVENT.getKey(sound);
+            if (key != null) {
+                this.soundsList.add(key.toString());
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
 import com.andrew121410.mc.world16utils.sign.screen.pages.SignLayout;
 import com.andrew121410.mc.world16utils.sign.screen.pages.SignPage;
 import com.andrew121410.mc.world16utils.utils.Utils;
+import org.bukkit.Registry;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -156,7 +157,8 @@ public class FireAlarmSignOS implements ISignScreen {
 
         SignPage signPage2 = new SignPage("Info2", "Info", 0, 0, 3, null);
         signPage2.setLine(0, Translate.colorc("Sound: {BELOW}"));
-        signPage2.setLine(1, Translate.colorc(utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().name(), 5)));
+        // TODO Changed to toString() for Sound (which I have no idea if that's good or not)
+        signPage2.setLine(1, Translate.colorc(utils.getLastStrings(iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getSound().toString(), 5)));
         signPage2.setLine(2, Translate.colorc("Volume: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getVolume()));
         signPage2.setLine(3, Translate.colorc("P>Pitch: " + iFireAlarm.getFireAlarmSettings().getFireAlarmSound().getPitch()));
 
