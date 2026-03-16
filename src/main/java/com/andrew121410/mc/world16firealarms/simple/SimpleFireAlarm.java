@@ -67,10 +67,10 @@ public class SimpleFireAlarm implements ConfigurationSerializable {
             FireAlarmScreen fireAlarmScreen = this.signsMap.get(entry.getKey());
             FireAlarmSignOS fireAlarmSignOS = null;
             if (fireAlarmScreen != null)
-                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
+                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenEngine().getSignScreen();
 
             if (fireAlarmSignOS != null) {
-                fireAlarmSignOS.mainPage(fireAlarmScreen.getSignScreenManager());
+                fireAlarmSignOS.mainPage(fireAlarmScreen.getSignScreenEngine());
             } else {
                 iterator.remove();
                 this.plugin.getFireAlarmManager().deleteFireAlarmSign(this.name, entry.getKey());
@@ -99,10 +99,10 @@ public class SimpleFireAlarm implements ConfigurationSerializable {
             FireAlarmScreen fireAlarmScreen = this.signsMap.get(entry.getKey());
             FireAlarmSignOS fireAlarmSignOS = null;
             if (fireAlarmScreen != null)
-                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenManager().getSignScreen();
+                fireAlarmSignOS = (FireAlarmSignOS) fireAlarmScreen.getSignScreenEngine().getSignScreen();
 
             if (fireAlarmSignOS != null) {
-                fireAlarmSignOS.sendPopup(fireAlarmScreen.getSignScreenManager(), fireAlarmReason);
+                fireAlarmSignOS.sendPopup(fireAlarmScreen.getSignScreenEngine(), fireAlarmReason);
             } else {
                 iterator.remove();
                 this.plugin.getFireAlarmManager().deleteFireAlarmSign(this.name, entry.getKey());

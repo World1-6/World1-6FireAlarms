@@ -1,48 +1,65 @@
 plugins {
-    id("io.freefair.lombok") version "9.1.0" // https://plugins.gradle.org/plugin/io.freefair.lombok
+    id("com.gradleup.shadow") version "9.3.1" // https://github.com/GradleUp/shadow
+    id("io.freefair.lombok") version "9.2.0"
+    id("xyz.jpenilla.run-paper") version "3.0.2" // https://github.com/jpenilla/run-task
     `java-library`
     `maven-publish`
 }
 
 group = "com.andrew121410.mc"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 description = "World1-6FireAlarms"
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-java.targetCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_25
+java.targetCompatibility = JavaVersion.VERSION_25
 
 tasks {
-    compileJava {
-        options.encoding = "UTF-8"
+    build {
+        dependsOn("shadowJar")
+        dependsOn("processResources")
     }
 
     jar {
-        archiveFileName.set("World1-6FireAlarms.jar")
+        enabled = false
+    }
+
+    compileJava {
+        options.encoding = "UTF-8"
+        options.release.set(25)
+    }
+
+    shadowJar {
+        archiveBaseName.set("World1-6FireAlarms")
+        archiveClassifier.set("")
+        archiveVersion.set("")
+    }
+
+    runServer {
+        minecraftVersion("1.21.11")
+
+        downloadPlugins {
+            url("https://github.com/World1-6/World1-6Utils/releases/download/latest/World1-6Utils.jar")
+        }
     }
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
-
-    maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
 
     maven {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
 
     maven {
-        url = uri("https://oss.sonatype.org/content/groups/public/")
+        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 
     maven {
-        url = uri("https://repo.opencollab.dev/maven-releases/")
+        url = uri("https://repo.maven.apache.org/maven2/")
     }
 
     maven {
-        url = uri("https://repo.opencollab.dev/maven-snapshots/")
+        url = uri("https://repo.opencollab.dev/main/")
     }
 
     maven {
@@ -51,13 +68,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
-    compileOnly("com.github.World1-6.World1-6Utils:World1-6Utils-Plugin:366d29bf7c")
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    compileOnly("com.github.World1-6.World1-6Utils:World1-6Utils-Plugin:02ceaacb83")
     compileOnly("org.geysermc.floodgate:api:2.2.5-SNAPSHOT")
 }
 
 publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+    publications {
+        create<MavenPublication>("shadow") {
+            artifact(tasks.named("shadowJar"))
+        }
     }
 }

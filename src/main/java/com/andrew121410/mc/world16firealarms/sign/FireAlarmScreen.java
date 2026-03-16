@@ -1,7 +1,7 @@
 package com.andrew121410.mc.world16firealarms.sign;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
-import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenEngine;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -16,7 +16,7 @@ public class FireAlarmScreen implements ConfigurationSerializable {
     private final String fireAlarmName;
     private final Location location;
 
-    private final SignScreenManager signScreenManager;
+    private final SignScreenEngine SignScreenEngine;
 
     private final World16FireAlarms plugin;
 
@@ -25,7 +25,7 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         this.name = name;
         this.fireAlarmName = fireAlarmName;
         this.location = location;
-        this.signScreenManager = new SignScreenManager(this.plugin, name, location, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
+        this.SignScreenEngine = new SignScreenEngine(this.plugin, name, location, 6L, new FireAlarmSignOS(this.plugin, name, fireAlarmName));
     }
 
     public static FireAlarmScreen deserialize(Map<String, Object> map) {
@@ -44,8 +44,8 @@ public class FireAlarmScreen implements ConfigurationSerializable {
         return location;
     }
 
-    public SignScreenManager getSignScreenManager() {
-        return signScreenManager;
+    public SignScreenEngine getSignScreenEngine() {
+        return SignScreenEngine;
     }
 
     public World16FireAlarms getPlugin() {

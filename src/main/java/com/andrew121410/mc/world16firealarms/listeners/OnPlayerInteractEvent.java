@@ -4,7 +4,7 @@ import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
 import com.andrew121410.mc.world16firealarms.sign.ScreenFocus;
 import com.andrew121410.mc.world16utils.blocks.UniversalBlockUtils;
-import com.andrew121410.mc.world16utils.sign.screen.SignScreenManager;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenEngine;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -59,10 +59,10 @@ public class OnPlayerInteractEvent implements Listener {
     }
 
     private void fireAlarmShit(PlayerInteractEvent event, Player p, ItemMeta itemMeta, FireAlarmScreen fireAlarmScreen, ScreenFocus screenFocus) {
-        SignScreenManager signScreenManager = fireAlarmScreen.getSignScreenManager();
+        SignScreenEngine SignScreenEngine = fireAlarmScreen.getSignScreenEngine();
 
         if (screenFocus == null) {
-            fireAlarmScreen.getSignScreenManager().tick(p);
+            fireAlarmScreen.getSignScreenEngine().tick(p);
             this.screenFocusMap.putIfAbsent(p.getUniqueId(), new ScreenFocus(plugin, p));
             return;
         }
@@ -70,14 +70,14 @@ public class OnPlayerInteractEvent implements Listener {
         if (itemMeta != null && itemMeta.hasDisplayName()) {
             if (itemMeta.getDisplayName().equalsIgnoreCase("Exit")) {
                 event.setCancelled(true);
-                signScreenManager.setStop(true);
+                SignScreenEngine.setStop(true);
                 screenFocus.revert();
                 this.screenFocusMap.remove(p.getUniqueId());
             } else if (itemMeta.getDisplayName().equalsIgnoreCase("SCROLL UP")) {
-                signScreenManager.onScroll(p, true);
+                SignScreenEngine.onScroll(p, true);
             } else if (itemMeta.getDisplayName().equalsIgnoreCase("SCROLL DOWN")) {
-                signScreenManager.onScroll(p, false);
+                SignScreenEngine.onScroll(p, false);
             }
-        } else signScreenManager.onClick(p);
+        } else SignScreenEngine.onClick(p);
     }
 }
