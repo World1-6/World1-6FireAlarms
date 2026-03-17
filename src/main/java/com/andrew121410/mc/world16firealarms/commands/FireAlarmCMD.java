@@ -9,7 +9,6 @@ import com.andrew121410.mc.world16utils.chat.Translate;
 import com.andrew121410.mc.world16utils.player.PlayerUtils;
 import com.andrew121410.mc.world16utils.utils.Utils;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +21,6 @@ import java.util.Map;
 public class FireAlarmCMD implements CommandExecutor {
 
     private final World16FireAlarms plugin;
-    private final Utils api;
 
     //Maps
     private final Map<String, SimpleFireAlarm> fireAlarmMap;
@@ -31,8 +29,6 @@ public class FireAlarmCMD implements CommandExecutor {
 
     public FireAlarmCMD(World16FireAlarms plugin) {
         this.plugin = plugin;
-
-        this.api = new Utils();
 
         this.fireAlarmMap = this.plugin.getMemoryHolder().getFireAlarmMap();
         this.fireAlarmScreenMap = this.plugin.getMemoryHolder().getFireAlarmScreenMap();
@@ -45,11 +41,10 @@ public class FireAlarmCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player player)) {
 
-            if (!(sender instanceof BlockCommandSender cmdblock)) {
+            if (!(sender instanceof BlockCommandSender)) {
                 return true;
             }
 
-            Block commandblock = cmdblock.getBlock();
 
             if (args.length == 4 && args[0].equalsIgnoreCase("alarm")) {
                 String name = args[2].toLowerCase();
@@ -101,6 +96,7 @@ public class FireAlarmCMD implements CommandExecutor {
 
                 Location location = PlayerUtils.getBlockPlayerIsLookingAt(player).getLocation();
                 FireAlarmScreen fireAlarmScreen = new FireAlarmScreen(plugin, signName, fireAlarmName, location);
+                fireAlarmScreen.registerToController();
                 this.fireAlarmScreenMap.putIfAbsent(location, fireAlarmScreen);
                 this.fireAlarmMap.get(fireAlarmName).registerSign(signName, fireAlarmScreen);
                 player.sendMessage(Translate.chat("The sign: " + signName + " is now registered to " + fireAlarmName));
@@ -207,6 +203,11 @@ public class FireAlarmCMD implements CommandExecutor {
 
             if (bool) {
                 this.plugin.getFireAlarmManager().saveAllFireAlarms();
+            }
+
+            for (FireAlarmScreen fireAlarmScreen : this.fireAlarmScreenMap.values()) {
+                fireAlarmScreen.unregisterFromController();
+                fireAlarmScreen.getSignScreenEngine().forceStop();
             }
 
             this.fireAlarmMap.clear();

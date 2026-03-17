@@ -2,6 +2,7 @@ package com.andrew121410.mc.world16firealarms.sign;
 
 import com.andrew121410.mc.world16firealarms.World16FireAlarms;
 import com.andrew121410.mc.world16utils.sign.screen.SignScreenEngine;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenController;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -50,6 +51,20 @@ public class FireAlarmScreen implements ConfigurationSerializable {
 
     public World16FireAlarms getPlugin() {
         return plugin;
+    }
+
+    public void registerToController() {
+        SignScreenController signScreenController = this.plugin.getSignScreenController();
+        if (signScreenController != null) {
+            signScreenController.registerScreen(this.location, this.SignScreenEngine);
+        }
+    }
+
+    public void unregisterFromController() {
+        SignScreenController signScreenController = this.plugin.getSignScreenController();
+        if (signScreenController != null) {
+            signScreenController.unregisterScreen(this.location);
+        }
     }
 
     @Override

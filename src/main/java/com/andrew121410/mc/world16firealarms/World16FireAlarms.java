@@ -2,9 +2,6 @@ package com.andrew121410.mc.world16firealarms;
 
 import com.andrew121410.mc.world16firealarms.commands.FireAlarmCMD;
 import com.andrew121410.mc.world16firealarms.listeners.OnBlockBreakEvent;
-import com.andrew121410.mc.world16firealarms.listeners.OnInventoryClickEvent;
-import com.andrew121410.mc.world16firealarms.listeners.OnPlayerInteractEvent;
-import com.andrew121410.mc.world16firealarms.listeners.OnPlayerQuitEvent;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmChunkSmartManager;
 import com.andrew121410.mc.world16firealarms.managers.FireAlarmManager;
 import com.andrew121410.mc.world16firealarms.sign.FireAlarmScreen;
@@ -12,6 +9,7 @@ import com.andrew121410.mc.world16firealarms.simple.SimpleFireAlarm;
 import com.andrew121410.mc.world16firealarms.simple.SimpleStrobe;
 import com.andrew121410.mc.world16firealarms.utils.OtherPlugins;
 import com.andrew121410.mc.world16firealarms.utils.MemoryHolder;
+import com.andrew121410.mc.world16utils.sign.screen.SignScreenController;
 import com.andrew121410.mc.world16utils.updater.UpdateManager;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,6 +64,10 @@ public final class World16FireAlarms extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (FireAlarmScreen fireAlarmScreen : this.memoryHolder.getFireAlarmScreenMap().values()) {
+            fireAlarmScreen.unregisterFromController();
+            fireAlarmScreen.getSignScreenEngine().forceStop();
+        }
         this.fireAlarmManager.saveAllFireAlarms();
     }
 
@@ -75,9 +77,6 @@ public final class World16FireAlarms extends JavaPlugin {
 
     private void regEvents() {
         new OnBlockBreakEvent(this);
-        new OnPlayerInteractEvent(this);
-        new OnInventoryClickEvent(this);
-        new OnPlayerQuitEvent(this);
     }
 
     private void regDefaultConfig() {
@@ -100,5 +99,12 @@ public final class World16FireAlarms extends JavaPlugin {
 
     public boolean isChunkSmartManagement() {
         return chunkSmartManagement;
+    }
+
+    public SignScreenController getSignScreenController() {
+        if (this.otherPlugins == null || this.otherPlugins.getWorld16Utils() == null) {
+            return null;
+        }
+        return this.otherPlugins.getWorld16Utils().getSignScreenController();
     }
 }

@@ -54,6 +54,7 @@ public class FireAlarmManager {
                 this.fireAlarmMap.put(key, iFireAlarm);
                 for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
                     this.fireAlarmScreenMap.put(value.getLocation(), value);
+                    value.registerToController();
                 }
             }
         }
@@ -70,6 +71,7 @@ public class FireAlarmManager {
         this.fireAlarmMap.putIfAbsent(iFireAlarm.getName(), iFireAlarm);
         for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
             this.fireAlarmScreenMap.putIfAbsent(value.getLocation(), value);
+            value.registerToController();
         }
         return iFireAlarm;
     }
@@ -77,6 +79,7 @@ public class FireAlarmManager {
     public void saveAndUnloadFireAlarm(SimpleFireAlarm iFireAlarm) {
         save(iFireAlarm);
         for (FireAlarmScreen value : iFireAlarm.getSignsMap().values()) {
+            value.unregisterFromController();
             this.fireAlarmScreenMap.remove(value.getLocation());
         }
         this.fireAlarmMap.remove(iFireAlarm.getName());
@@ -86,14 +89,23 @@ public class FireAlarmManager {
         ConfigurationSection cs = getFireAlarmsConfigurationSection();
         SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarm);
         if (iFireAlarm == null) return;
+
+        for (FireAlarmScreen fireAlarmScreen : iFireAlarm.getSignsMap().values()) {
+            fireAlarmScreen.unregisterFromController();
+            this.fireAlarmScreenMap.remove(fireAlarmScreen.getLocation());
+        }
+        this.fireAlarmMap.remove(fireAlarm);
+
         cs.set(iFireAlarm.getName(), null);
         this.fireAlarmsYml.saveConfig();
     }
 
     public void deleteFireAlarmSign(String fireAlarm, String signName) {
         SimpleFireAlarm iFireAlarm = this.fireAlarmMap.get(fireAlarm);
+        if (iFireAlarm == null) return;
         FireAlarmScreen fireAlarmScreen = iFireAlarm.getSignsMap().get(signName);
         if (fireAlarmScreen == null) return;
+        fireAlarmScreen.unregisterFromController();
         this.fireAlarmScreenMap.remove(fireAlarmScreen.getLocation());
         iFireAlarm.getSignsMap().remove(fireAlarmScreen.getName());
     }
