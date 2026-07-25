@@ -1,5 +1,5 @@
 plugins {
-    id("com.gradleup.shadow") version "9.3.1" // https://github.com/GradleUp/shadow
+    id("com.gradleup.shadow") version "9.6.1" // https://github.com/GradleUp/shadow
     id("io.freefair.lombok") version "9.2.0"
     id("xyz.jpenilla.run-paper") version "3.0.2" // https://github.com/jpenilla/run-task
     `java-library`
